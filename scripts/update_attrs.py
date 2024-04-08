@@ -6,7 +6,7 @@ import pathlib
 from ruamel.yaml import YAML
 yaml = YAML(typ='safe')
 import gcsfs
-import datetime
+from datetime import datetime, timezone
 
 fs = gcsfs.GCSFileSystem()
 
@@ -45,8 +45,8 @@ for recipe in meta['recipes']:
     meta_updates = recipe | top_level_meta
     
     # Information for reproducibility
-    meta_updates['git_hash_attrs_updated'] = git_hash
-    meta_updates['attrs_updated_time_utc'] = datetime.datetime.now(datetime.UTC).isoformat()
+    meta_updates['attrs_updated_git_hash'] = git_hash
+    meta_updates['attrs_updated_time_utc'] = datetime.now(timezone.utc).isoformat()
     
     store.attrs.update(meta_updates)
     zarr.convenience.consolidate_metadata(store_path) #Important: do not pass the store object here!
