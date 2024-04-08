@@ -11,5 +11,5 @@ pangeo-forge-runner bake \
   --ref=main \
   --feedstock-subdir='feedstock' \
   --Bake.job_name=proto_a\
-  --Bake.recipe_id=test_short_time_only_chunks\
+  --Bake.recipe_id=proto_a\
   -f config_local.py
