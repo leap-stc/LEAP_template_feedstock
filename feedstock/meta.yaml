@@ -4,20 +4,10 @@ description: >
 recipes:
   - id: "proto_a"
     object: "recipe:proto_a"
-    description: Some description for proto_a
-    data_store: "this"
-    pyramid_store: "gs://some-bucket/some-path/some-store.zarr"
-    axes:
-      - 'T': 'time'
-      - 'Y': 'latitude'
+
   - id: "proto_b"
     object: "recipe:proto_b"
-    description: Some description for proto_b
-    data_store: "this"
-    pyramid_store: "gs://some-bucket/some-other-path/some-other-store.zarr"
-    axes:
-      - 'T': 'time'
-      - 'Y': 'latitude'
+
 provenance:
   providers:
     - name: "Zenodo"
