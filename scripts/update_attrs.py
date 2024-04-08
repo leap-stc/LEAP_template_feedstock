@@ -12,10 +12,20 @@ fs = gcsfs.GCSFileSystem()
 
 # # For later, get the current git hash and add to the updated attribute
 git_hash = os.popen('git rev-parse HEAD').read().strip()
+timestamp = datetime.now(timezone.utc).isoformat()
 
 # read info from meta.yaml
 meta_path = './feedstock/meta.yaml'
 meta = yaml.load(pathlib.Path(meta_path))
+
+def update_zarr_attrs(store_path:str, additonal_attrs:dict):
+    """
+    Update the attributes of a zarr store with the given dictionary
+    """
+    store = zarr.open(zarr.storage.FSStore(pathlib.Path(store_path)), mode='a')
+    store.attrs.update(additonal_attrs)
+    zarr.convenience.consolidate_metadata(store_path) #Important: do not pass the store object here!
+    return store_path
 
 # Loop over each recipe 
 for recipe in meta['recipes']:
@@ -30,9 +40,6 @@ for recipe in meta['recipes']:
         print(f"Warning: Store {store_path} does not exist. Skipping.")
         continue
 
-    # Get the current store object
-    store = zarr.open(zarr.storage.FSStore(store_path), mode='a')
-
     # add the infor from the top level of the meta.yaml
     top_level_meta = {
             k: meta.get(k, 'none') for k in [
@@ -42,13 +49,10 @@ for recipe in meta['recipes']:
             ]
             }
 
-    meta_updates = recipe | top_level_meta
+    attr_updates = recipe | top_level_meta
     
     # Information for reproducibility
-    meta_updates['attrs_updated_git_hash'] = git_hash
-    meta_updates['attrs_updated_time_utc'] = datetime.now(timezone.utc).isoformat()
-    
-    store.attrs.update(meta_updates)
-    zarr.convenience.consolidate_metadata(store_path) #Important: do not pass the store object here!
-
-
+    attr_updates['attrs_updated_git_hash'] = git_hash
+    attr_updates['attrs_updated_time_utc'] = timestamp 
+    check_path = update_zarr_attrs(store_path, attr_updates)
+    print(f"Updated {check_path} with {attr_updates=}")
