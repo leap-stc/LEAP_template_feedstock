@@ -22,7 +22,7 @@ def update_zarr_attrs(store_path:str, additonal_attrs:dict):
     """
     Update the attributes of a zarr store with the given dictionary
     """
-    store = zarr.open(zarr.storage.FSStore(pathlib.Path(store_path)), mode='a')
+    store = zarr.open(zarr.storage.FSStore(store_path), mode='a')
     store.attrs.update(additonal_attrs)
     zarr.convenience.consolidate_metadata(store_path) #Important: do not pass the store object here!
     return store_path
