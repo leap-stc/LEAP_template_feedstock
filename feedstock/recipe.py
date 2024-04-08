@@ -31,7 +31,7 @@ proto_a = (
         store_name='proto_a.zarr',
         combine_dims=pattern_a.combine_dim_keys,
     )
-    |ConsolidateCoordinates()
+    |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
 )
 
@@ -43,6 +43,6 @@ proto_b = (
         store_name='proto_b.zarr',
         combine_dims=pattern_b.combine_dim_keys,
     )
-    |ConsolidateCoordinates()
+    |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
 )
