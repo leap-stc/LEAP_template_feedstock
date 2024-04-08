@@ -4,6 +4,9 @@ import zarr
 import pathlib
 from ruamel.yaml import YAML
 yaml = YAML(typ='safe')
+import gcsfs
+
+fs = gcsfs.GCSFileSystem()
 
 # # For later, get the current git hash and add to the updated attribute
 # git_hash = os.popen('git rev-parse HEAD').read().strip()
@@ -20,15 +23,13 @@ for recipe in meta['recipes']:
     # Some how get the store path from the recipe
     store_path = f'gs://leap-scratch/jbusecke/proto_feedstock/{id}.zarr' # how can I extract this for multiple recipes using the config files?
 
-    fsstore = zarr.storage.FSStore(store_path)
-
     # Check if store exists and otherwise give a useful warning
-    if not fsstore.exists(''):
+    if not fs.exists(store_path):
         print(f"Warning: Store {store_path} does not exist. Skipping.")
         continue
 
     # Get the current store object
-    store = zarr.open(fsstore, mode='a')
+    store = zarr.open(zarr.storage.FSStore(store_path), mode='a')
 
     # add the infor from the top level of the meta.yaml
     top_level_meta = {
