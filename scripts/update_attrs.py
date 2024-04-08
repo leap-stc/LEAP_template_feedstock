@@ -1,15 +1,17 @@
 # This script updates the attributes of all the zarr stores that are created by the recipe, based on the current version of meta.yaml
 
 import zarr
+import os
 import pathlib
 from ruamel.yaml import YAML
 yaml = YAML(typ='safe')
 import gcsfs
+import datetime
 
 fs = gcsfs.GCSFileSystem()
 
 # # For later, get the current git hash and add to the updated attribute
-# git_hash = os.popen('git rev-parse HEAD').read().strip()
+git_hash = os.popen('git rev-parse HEAD').read().strip()
 
 # read info from meta.yaml
 meta_path = './feedstock/meta.yaml'
@@ -42,9 +44,9 @@ for recipe in meta['recipes']:
 
     meta_updates = recipe | top_level_meta
     
-    ## For later: Add the git hash as 'git_hash_attrs_updated'
-    # meta_updates['git_hash_attrs_updated'] = git_hash
-    meta_updates['git_hash_attrs_updated'] = 'some_fake_hash'
+    # Information for reproducibility
+    meta_updates['git_hash_attrs_updated'] = git_hash
+    meta_updates['attrs_updated_time_utc'] = datetime.datetime.now(datetime.UTC).isoformat()
     
     store.attrs.update(meta_updates)
     zarr.convenience.consolidate_metadata(store_path) #Important: do not pass the store object here!
