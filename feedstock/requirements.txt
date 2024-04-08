@@ -1,0 +1,2 @@
+pangeo-forge-recipes==0.10.7
+apache-beam[gcp]
