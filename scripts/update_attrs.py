@@ -9,7 +9,7 @@ yaml = YAML(typ='safe')
 # git_hash = os.popen('git rev-parse HEAD').read().strip()
 
 # read info from meta.yaml
-meta_path = '../feedstock/meta.yaml'
+meta_path = './feedstock/meta.yaml'
 meta = yaml.load(pathlib.Path(meta_path))
 
 # Loop over each recipe 
