@@ -6,7 +6,15 @@ on:
       jobname:
         description: 'Dataflow job name to check'
         required: true
-        default: ''
+  workflow_call: # i cant make this work at any freakding cost... for now just call it manually
+    inputs:
+      jobname:
+        description: 'Dataflow job name to check'
+        required: true
+        type: string # not sure if that gives all the trouble...
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY:
+        required: true
 
 jobs:
   check-jobs:
@@ -18,6 +26,9 @@ jobs:
       uses: "google-github-actions/auth@v2"
       with:
         credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
+    - name: Print the env.JOB_NAME
+      run: |
+        echo "JOB_NAME: ${{ env.JOB_NAME }}"
     - name: Wait for Dataflow jobs to finish
       run: |
         jobname="${{ github.event.inputs.jobname }}"

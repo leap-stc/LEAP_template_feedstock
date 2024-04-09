@@ -14,9 +14,7 @@ on:
 
 jobs:
   deploy-recipes:
-    name: deploy-recipes
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: "Authenticate to Google Cloud"
@@ -28,24 +26,34 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pangeo-forge-runner
-      - name: "Check if the workflows are there?"
+      - name: "Deploy recipes"
         run: |
-          ls -la .github/workflows
-      # - name: "Deploy recipes"
-      #   run: |
-      #     pangeo-forge-runner bake \
-      #       --repo=${{ github.server_url }}/${{ github.repository }}.git \
-      #       --ref=${{ github.sha }} \
-      #       --feedstock-subdir='feedstock' \
-      #       --Bake.job_name=$JOB_NAME \
-      #       --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
-      #       -f configs/config_dataflow.py
-      #   env:
-      #     GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
-      - name: Wait for job completion
-        uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@main
-        with:
-          jobname: $JOB_NAME
-      - name: Just something else
-        run: echo "This is just another step"
-      
+          pangeo-forge-runner bake \
+            --repo=${{ github.server_url }}/${{ github.repository }}.git \
+            --ref=${{ github.sha }} \
+            --feedstock-subdir='feedstock' \
+            --Bake.job_name=${{ env.JOB_NAME }} \
+            --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
+            -f configs/config_dataflow.py
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
+      - name: Wait for Dataflow jobs to finish
+        # I tried to make this reusable but the fucking thing would not accept env.JOB_NAME as input.
+        # AT that point, screw it, not worth it.
+        run: |
+          jobname="${{ env.JOB_NAME }}"
+          while true; do
+            count=$(gcloud dataflow jobs list --status=active --filter="name:${jobname}" --format="value(id)" | wc -l)
+            echo "Active Dataflow jobs: $count"
+            if [ "$count" -eq "0" ]; then
+              echo "No active Dataflow jobs found."
+              break
+            fi
+            echo "Waiting for Dataflow jobs to finish..."
+            sleep 30
+          done
+  update-attrs:
+    needs: deploy-recipes
+    uses: ./.github/workflows/update_attrs.yaml
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
