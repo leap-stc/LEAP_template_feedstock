@@ -40,7 +40,7 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
       - name: Wait for job completion
-        uses: ./.github/workflows/check_dataflow_jobs.yaml@main
+        uses: ./.github/workflows/check_dataflow_jobs.yaml
         with:
           jobname: $JOB_NAME
       - name: Just something else
