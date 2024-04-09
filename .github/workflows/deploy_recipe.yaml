@@ -44,7 +44,7 @@ jobs:
       #     GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
   check-dataflow:
     needs: deploy-recipes
-    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@main
+    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml
     with:
       jobname: $JOB_NAME
   just-another-job:
