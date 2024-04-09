@@ -22,8 +22,8 @@ if 'data_store_path' in recipe_meta.keys() and 'data_store_prefix' in catalog_me
     # raise error if both are present
     raise ValueError("Both 'data_store_path' and 'data_store_prefix' are present in the recipe metadata. Please only specify one.")
 
-if 'data_store_path' in recipe_meta[recipe_id].keys():
-    data_store_path = recipe_meta[recipe_id]['data_store_path']
+if 'data_store_path' in recipe_meta.keys():
+    data_store_path = recipe_meta['data_store_path']
 else:
     data_store_path = os.path.join(data_prefix,f"{recipe_id}.zarr")
 
