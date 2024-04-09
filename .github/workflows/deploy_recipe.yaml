@@ -13,12 +13,6 @@ on:
         default: 'all'
 
 jobs:
-  print-job-name:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Print Job Name"
-        run: |
-          echo "Job Name: $JOB_NAME"
   deploy-recipes:
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +32,7 @@ jobs:
             --repo=${{ github.server_url }}/${{ github.repository }}.git \
             --ref=${{ github.sha }} \
             --feedstock-subdir='feedstock' \
-            --Bake.job_name=$JOB_NAME \
+            --Bake.job_name=${{ env.JOB_NAME }} \
             --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
             -f configs/config_dataflow.py
         env:
