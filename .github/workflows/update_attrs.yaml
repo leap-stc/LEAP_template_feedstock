@@ -4,12 +4,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-recipes:
-    name: deploy-recipes
+  update-attrs:
+    name: update-store-attrs
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-
     steps:
       - uses: actions/checkout@v4
       - name: "Install dependencies"
