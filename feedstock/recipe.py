@@ -52,13 +52,12 @@ class InjectAttrs(beam.PTransform):
     
     def _update_zarr_attrs(self,store: zarr.storage.FSStore) -> zarr.storage.FSStore:
         #TODO: Can we get a warning here if the store does not exist?
-        assert isinstance(store, zarr.storage.FSStore)
-        store = zarr.open(store, mode='a')
-        store.attrs.update(self.inject_attrs)
+        attrs = zarr.open(store, mode='a').attrs
+        attrs.update(self.inject_attrs)
         #? Should we consolidate here? We are explicitly doing that later...
         return store
     
-    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
+    def expand(self, pcoll: beam.PCollection[zarr.storage.FSStore]) -> beam.PCollection[zarr.storage.FSStore]:
         return (pcoll
             | "Injecting Attributes" >> beam.Map(self._update_zarr_attrs)
         )
@@ -96,6 +95,9 @@ injection_attrs = {
 injection_attrs['latest_data_updated_git_hash'] = git_url_hash
 injection_attrs['latest_data_updated_timestamp'] = timestamp
 injection_attrs['ref_meta.yaml'] = meta_yaml_url_main
+
+# FIXME: The above is not working, lets try with something simpler
+injection_attrs = {'test':'test'}
 
 
 ## Monthly version
