@@ -23,6 +23,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install zarr
       - run: |
-          python create_catalog_zarr.py
+          python scripts/create_catalog_zarr.py
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
