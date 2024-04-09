@@ -27,7 +27,7 @@ class Copy(beam.PTransform):
         # We do need the gs:// prefix? 
         # TODO: Determine this dynamically from zarr.storage.FSStore
         source = f"gs://{os.path.normpath(store.path)}/" #FIXME more elegant. `.copytree` needs trailing slash
-        target = os.path.join(*[self.target_prefix]+source.split('/')[-3:])
+        target = os.path.join(*[self.target_prefix]+source.split('/')[-2:])
         # gcs = gcsio.GcsIO()
         # gcs.copytree(source, target)
         print(f"HERE: Copying {source} to {target}")
