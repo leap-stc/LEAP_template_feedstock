@@ -42,6 +42,9 @@ jobs:
     uses: ./.github/workflows/check_dataflow_jobs.yaml
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
+    with:
+      env:
+        JOB_NAME: ${{ github.event.inputs.recipe_id }}-${{ github.run_id }}-${{ github.run_attempt }}
   update-attrs:
     needs: check-dataflow
     uses: ./.github/workflows/update_attrs.yaml
