@@ -1,5 +1,9 @@
 name: Deploy Recipes to Google Dataflow
 
+env:
+  JOB_NAME: ${{ github.event.inputs.recipe_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,6 +16,7 @@ jobs:
   deploy-recipes:
     name: deploy-recipes
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - name: "Authenticate to Google Cloud"
@@ -29,10 +34,15 @@ jobs:
             --repo=${{ github.server_url }}/${{ github.repository }}.git \
             --ref=${{ github.sha }} \
             --feedstock-subdir='feedstock' \
-            --Bake.job_name=${{ github.event.inputs.recipe_id }}-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT \
+            --Bake.job_name=$JOB_NAME \
             --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
             -f configs/config_dataflow.py
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_RUN_ATTEMPT: ${{ github.run_attempt }}
+      - name: Wait for job completion
+        uses: ./.github/workflows/check_dataflow_jobs.yaml@main
+        with:
+          jobname: $JOB_NAME
+      - name: Just something else
+        run: echo "This is just another step"
+      
