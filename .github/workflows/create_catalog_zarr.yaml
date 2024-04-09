@@ -11,6 +11,7 @@ on:
       recipe_id:
         description: 'The id of a single recipe to submit to Dataflow'
         required: true
+        type: string
     secrets:
       GCP_DATAFLOW_SERVICE_KEY:
           required: true
