@@ -7,8 +7,6 @@ recipes:
 
   - id: "proto-b"
     object: "recipe:proto_b"
-    pyramid_store: 'some-store-somewhere'
-    pyramid_store_public: 'false'
 
 provenance:
   providers:
