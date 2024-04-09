@@ -42,12 +42,14 @@ jobs:
       #       -f configs/config_dataflow.py
       #   env:
       #     GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
-    check-dataflow:
-      needs: deploy-recipes
-      uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@main
-      with:
-        jobname: $JOB_NAME
-    just-another-step:
-      - name: Just something else
+  check-dataflow:
+    needs: deploy-recipes
+    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@main
+    with:
+      jobname: $JOB_NAME
+  just-another-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Just another step
         run: echo "This is just another step"
       
