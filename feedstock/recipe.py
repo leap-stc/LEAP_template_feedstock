@@ -3,9 +3,11 @@ A prototype based on MetaFlux
 """
 import zarr
 import json
+import pathlib
 import os
 from dataclasses import dataclass
 import apache_beam as beam
+from datetime import datetime, timezone
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.transforms import (
     OpenURLWithFSSpec,
@@ -14,6 +16,8 @@ from pangeo_forge_recipes.transforms import (
     ConsolidateMetadata,
     ConsolidateDimensionCoordinates,
 )
+from ruamel.yaml import YAML
+yaml = YAML(typ='safe')
 
 # copied from cmip feedstock (TODO: move to central repo?)
 @dataclass
@@ -31,7 +35,7 @@ class Copy(beam.PTransform):
         # gcs = gcsio.GcsIO()
         # gcs.copytree(source, target)
         print(f"HERE: Copying {source} to {target}")
-        fs = gcsfs.GCSFileSystem()
+        fs = gcsfs.GCSFileSystem() # FIXME: How can we generalize this?
         fs.cp(source, target, recursive=True)
         # return a new store with the new path that behaves exactly like the input 
         # to this stage (so we can slot this stage right before testing/logging stages)
@@ -41,12 +45,57 @@ class Copy(beam.PTransform):
         return (pcoll
             | "Copying Store" >> beam.Map(self._copy)
         )
+    
+@dataclass
+class InjectAttrs(beam.PTransform):
+    inject_attrs: dict
+    
+    def _update_zarr_attrs(self,store: zarr.storage.FSStore) -> zarr.storage.FSStore:
+        #TODO: Can we get a warning here if the store does not exist?
+        store = zarr.open(store, mode='a')
+        store.attrs.update(self.inject_attrs)
+        #? Should we consolidate here? We are explicitly doing that later...
+        return store
+    
+    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
+        return (pcoll
+            | "Injecting Attributes" >> beam.Map(self._update_zarr_attrs)
+        )
+# TODO: Both these stages are generally useful. They should at least be in the utils package, maybe in recipes?
 
 # Common Parameters
 dataset_url = 'https://zenodo.org/record/7761881/files'
 with open('global_config.json') as f:
     global_config = json.load(f)
 latest_store_prefix = global_config['latest_store_prefix']
+
+# Set up injection attributes
+# This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
+# - Bake in information from the top level of the meta.yaml
+# - Add a timestamp
+# - Add the git hash
+# - Add link to the meta.yaml on main
+# - Add the recipe id
+
+# read info from meta.yaml
+meta_path = './feedstock/meta.yaml'
+meta = yaml.load(pathlib.Path(meta_path))
+meta_yaml_url_main = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/blob/main/feedstock/meta.yaml"
+git_url_hash = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{os.environ['GITHUB_SHA']}"
+timestamp = datetime.now(timezone.utc).isoformat()
+
+#TODO: Can we make some of this a standard part of the injection stage? The user would only define stuff that should be overwritten.
+injection_attrs = {
+    f"pangeo-forge-{k}": meta.get(k, 'none') for k in [
+        'description', 
+        'provenance',
+        'maintainers',
+    ]
+}
+injection_attrs['latest_data_updated_git_hash'] = git_url_hash
+injection_attrs['latest_data_updated_timestamp'] = timestamp
+injection_attrs['ref_meta.yaml'] = meta_yaml_url_main
+
 
 ## Monthly version
 input_urls_a = [f'{dataset_url}/METAFLUX_GPP_RECO_monthly_{y}.nc' for y in range(2001, 2003)]
@@ -66,6 +115,7 @@ proto_a = (
         # Maybe its better to find another way and avoid injections entirely...
         combine_dims=pattern_a.combine_dim_keys,
     )
+    |InjectAttrs(injection_attrs)
     |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
     |Copy(target_prefix=latest_store_prefix)
@@ -79,6 +129,7 @@ proto_b = (
         store_name='proto-b.zarr',
         combine_dims=pattern_b.combine_dim_keys,
     )
+    |InjectAttrs(injection_attrs)
     |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
     |Copy(target_prefix=latest_store_prefix)

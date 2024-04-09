@@ -11,9 +11,10 @@ from datetime import datetime, timezone
 
 with open('global_config.json') as f:
     global_config = json.load(f)
-latest_store_prefix = global_config['latest_store_prefix']
 
-print(f"Using {latest_store_prefix=}")
+latest_data_store_prefix = global_config['latest_data_store_prefix']
+
+print(f"Using {latest_data_store_prefix=}")
 
 fs = gcsfs.GCSFileSystem()
 
@@ -44,7 +45,7 @@ for recipe in meta['recipes']:
     assert 'object' in recipe.keys() #(FIXME: this does not support dict objects yet...)
 
     # Some how get the store path from the recipe
-    store_path = f'{latest_store_prefix}/{id}.zarr'
+    store_path = f'{latest_data_store_prefix}/{id}.zarr'
     # This only works if the store name in the recipe is the same as the id...which is easy to get wrong!!! 
 
     # add the infor from the top level of the meta.yaml
