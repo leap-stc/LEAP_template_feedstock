@@ -1,6 +1,5 @@
 # create a 'catalog zarr' for any given recipe
 import os
-import json
 import gcsfs
 import zarr
 import xarray as xr
