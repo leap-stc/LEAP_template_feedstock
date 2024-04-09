@@ -2,8 +2,8 @@ title: "LEAP Data Library Prototype"
 description: >
   A prototype test for the LEAP Data Library refactor
 recipes:
-  - id: "large"
-    object: "recipe:proto_a"
+  - id: "small"
+    object: "recipe:small"
   - id: "large"
     object: "recipe:large"
 provenance:
