@@ -95,10 +95,6 @@ injection_attrs['latest_data_updated_git_hash'] = git_url_hash
 injection_attrs['latest_data_updated_timestamp'] = timestamp
 injection_attrs['ref_meta.yaml'] = meta_yaml_url_main
 
-# FIXME: The above is not working, lets try with something simpler
-injection_attrs = {'test':'test'}
-
-
 ## Monthly version
 input_urls_a = [
     "gs://cmip6/pgf-debugging/hanging_bug/file_a.nc",
