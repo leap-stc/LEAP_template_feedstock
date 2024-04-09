@@ -41,7 +41,7 @@ jobs:
     needs: deploy-recipes
     uses: ./.github/workflows/check_dataflow_jobs.yaml
     with:
-      jobname: ${{ env.JOB_NAME }}
+      jobname: "$JOB_NAME"
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
   update-attrs:
