@@ -7,6 +7,13 @@ on:
         description: 'Dataflow job name to check'
         required: true
         default: ''
+  workflow_call:
+    inputs:
+      jobname:
+        description: 'Dataflow job name to check'
+        required: true
+        default: ''
+        type: string
 
 jobs:
   check-jobs:
