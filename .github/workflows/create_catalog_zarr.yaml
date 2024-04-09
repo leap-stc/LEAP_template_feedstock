@@ -6,6 +6,14 @@ on:
       recipe_id:
         description: 'The id of a single recipe to submit to Dataflow'
         required: true
+  workflow_call:
+    inputs:
+      recipe_id:
+        description: 'The id of a single recipe to submit to Dataflow'
+        required: true
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY:
+          required: true
 
 env:
   RECIPE_ID: ${{ github.event.inputs.recipe_id }}
