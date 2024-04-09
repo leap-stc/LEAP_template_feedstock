@@ -67,7 +67,7 @@ class InjectAttrs(beam.PTransform):
 dataset_url = 'https://zenodo.org/record/7761881/files'
 with open('global_config.json') as f:
     global_config = json.load(f)
-latest_store_prefix = global_config['latest_store_prefix']
+latest_data_store_prefix = global_config['latest_data_store_prefix']
 
 # Set up injection attributes
 # This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
@@ -118,7 +118,7 @@ proto_a = (
     |InjectAttrs(injection_attrs)
     |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
-    |Copy(target_prefix=latest_store_prefix)
+    |Copy(target_prefix=latest_data_store_prefix)
 )
 
 proto_b = (
@@ -132,5 +132,5 @@ proto_b = (
     |InjectAttrs(injection_attrs)
     |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
-    |Copy(target_prefix=latest_store_prefix)
+    |Copy(target_prefix=latest_data_store_prefix)
 )

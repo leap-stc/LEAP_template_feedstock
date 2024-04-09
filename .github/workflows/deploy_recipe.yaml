@@ -53,6 +53,7 @@ jobs:
             sleep 20
           done
   follow-up-task:
+    needs: deploy-recipes
     runs-on: ubuntu-latest
     steps:
     - name: just a dummy for now
