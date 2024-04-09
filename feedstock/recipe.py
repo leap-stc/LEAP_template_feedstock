@@ -1,5 +1,5 @@
 """
-A prototype based on MetaFlux
+A synthetic prototype recipe
 """
 import zarr
 import json
@@ -64,7 +64,6 @@ class InjectAttrs(beam.PTransform):
 # TODO: Both these stages are generally useful. They should at least be in the utils package, maybe in recipes?
 
 # Common Parameters
-dataset_url = 'https://zenodo.org/record/7761881/files'
 with open('global_config.json') as f:
     global_config = json.load(f)
 latest_data_store_prefix = global_config['latest_data_store_prefix']
@@ -101,12 +100,19 @@ injection_attrs = {'test':'test'}
 
 
 ## Monthly version
-input_urls_a = [f'{dataset_url}/METAFLUX_GPP_RECO_monthly_{y}.nc' for y in range(2001, 2003)]
-input_urls_b = [f'{dataset_url}/METAFLUX_GPP_RECO_monthly_{y}.nc' for y in range(2003, 2005)]
+input_urls_a = [
+    "gs://cmip6/pgf-debugging/hanging_bug/file_a.nc",
+    "gs://cmip6/pgf-debugging/hanging_bug/file_b.nc",
+]
+input_urls_b = [
+    "gs://cmip6/pgf-debugging/hanging_bug/file_a_huge.nc",
+    "gs://cmip6/pgf-debugging/hanging_bug/file_b_huge.nc",
+]
 
 pattern_a = pattern_from_file_sequence(input_urls_a, concat_dim='time')
 pattern_b = pattern_from_file_sequence(input_urls_b, concat_dim='time')
 
+# very small recipe
 proto_a = (
     beam.Create(pattern_a.items())
     | OpenURLWithFSSpec()
@@ -124,6 +130,7 @@ proto_a = (
     |Copy(target_prefix=latest_data_store_prefix)
 )
 
+# larger recipe
 proto_b = (
     beam.Create(pattern_b.items())
     | OpenURLWithFSSpec()
