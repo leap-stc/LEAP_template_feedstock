@@ -2,21 +2,14 @@ title: "LEAP Data Library Prototype"
 description: >
   A prototype test for the LEAP Data Library refactor
 recipes:
-  - id: "proto-a"
+  - id: "large"
     object: "recipe:proto_a"
-
-  - id: "proto-b"
-    object: "recipe:proto_b"
-
+  - id: "large"
+    object: "recipe:large"
 provenance:
   providers:
-    - name: "Zenodo"
-      description: "Zenodo"
-      roles:
-        - host
-      url: https://zenodo.org/record/7761881#.ZFv9OS-B30p
-    - name: "Nathaniel et al."
-      description: "Authors of MetaFlux: Meta-learning global carbon fluxes from sparse spatiotemporal observations"
+    - name: "Julius"
+      description: "Just a guy testing some recipes. Nothing to see here."
       roles:
         - producer
         - licensor

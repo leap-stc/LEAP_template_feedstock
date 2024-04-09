@@ -109,12 +109,12 @@ pattern_a = pattern_from_file_sequence(input_urls_a, concat_dim='time')
 pattern_b = pattern_from_file_sequence(input_urls_b, concat_dim='time')
 
 # very small recipe
-proto_a = (
+small = (
     beam.Create(pattern_a.items())
     | OpenURLWithFSSpec()
     | OpenWithXarray()
     | StoreToZarr(
-        store_name='proto-a.zarr', 
+        store_name='small.zarr', 
         #FIXME: This is brittle. it needs to be named exactly like in meta.yaml...
         # Can we inject this in the same way as the root?
         # Maybe its better to find another way and avoid injections entirely...
@@ -127,12 +127,12 @@ proto_a = (
 )
 
 # larger recipe
-proto_b = (
+large = (
     beam.Create(pattern_b.items())
     | OpenURLWithFSSpec()
     | OpenWithXarray()
     | StoreToZarr(
-        store_name='proto-b.zarr',
+        store_name='large.zarr',
         combine_dims=pattern_b.combine_dim_keys,
     )
     |InjectAttrs(injection_attrs)
