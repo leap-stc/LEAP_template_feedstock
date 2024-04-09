@@ -1,0 +1,30 @@
+on:
+  workflow_dispatch:
+    inputs:
+      recipe_id:
+        description: 'The id of a single recipe to submit to Dataflow'
+        required: true
+        default: 'all'
+
+jobs:
+  deploy-recipes:
+    name: deploy-recipes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Authenticate to Google Cloud"
+        id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
+      - name: "Deploy recipes"
+        run: |
+          pangeo-forge-runner bake \
+            --repo=${{ github.server_url }}/${{ github.repository }}.git \
+            --ref=${{ github.sha }} \
+            --feedstock-subdir='feedstock' \
+            --Bake.job_name=${{ github.event.inputs.recipe_id }}-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT \
+            --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
+            -f configs/config.py
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
