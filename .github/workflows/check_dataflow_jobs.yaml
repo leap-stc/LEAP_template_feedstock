@@ -1,0 +1,33 @@
+name: Check Active Dataflow Jobs
+
+on:
+  workflow_dispatch:
+    inputs:
+      jobname:
+        description: 'Dataflow job name to check'
+        required: true
+        default: ''
+
+jobs:
+  check-jobs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Setup Cloud SDK
+      uses: "google-github-actions/auth@v2"
+      with:
+        credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
+    - name: Wait for Dataflow jobs to finish
+      run: |
+        jobname="${{ github.event.inputs.jobname }}"
+        while true; do
+          count=$(gcloud dataflow jobs list --status=active --filter="name:${jobname}" --format="value(id)" | wc -l)
+          echo "Active Dataflow jobs: $count"
+          if [ "$count" -eq "0" ]; then
+            echo "No active Dataflow jobs found."
+            break
+          fi
+          echo "Waiting for Dataflow jobs to finish..."
+          sleep 30
+        done
