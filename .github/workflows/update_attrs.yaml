@@ -2,6 +2,10 @@ name: Update Attributes from meta.yaml
 
 on:
   workflow_dispatch:
+  workflow_call:
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY:
+        required: true
 
 jobs:
   update-attrs:
