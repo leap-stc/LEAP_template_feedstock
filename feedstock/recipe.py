@@ -126,6 +126,13 @@ small = (
     |Copy(target_prefix=latest_data_store_prefix)
 )
 
+small-cat = (
+    beam.Create(pattern_a.items())
+    | OpenURLWithFSSpec()
+    | OpenWithXarray()
+    | StoreToZarr(
+        store_name='small-cat.zarr',
+
 # larger recipe
 large = (
     beam.Create(pattern_b.items())
