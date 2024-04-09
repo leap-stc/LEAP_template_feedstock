@@ -8,9 +8,6 @@ recipes:
   - id: "proto_b"
     object: "recipe:proto_b"
 
-  - id: "proto_missing"
-    object: "recipe:proto_missing"
-
 provenance:
   providers:
     - name: "Zenodo"
