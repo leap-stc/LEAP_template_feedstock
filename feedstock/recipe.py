@@ -2,6 +2,7 @@
 A prototype based on MetaFlux
 """
 import zarr
+import json
 import os
 from dataclasses import dataclass
 import apache_beam as beam
@@ -43,7 +44,9 @@ class Copy(beam.PTransform):
 
 # Common Parameters
 dataset_url = 'https://zenodo.org/record/7761881/files'
-latest_store_prefix = 'gs://leap-scratch/jbusecke/proto_feedstock/latest/'
+with open('global_config.json') as f:
+    global_config = json.load(f)
+latest_store_prefix = global_config['latest_store_prefix']
 
 ## Monthly version
 input_urls_a = [f'{dataset_url}/METAFLUX_GPP_RECO_monthly_{y}.nc' for y in range(2001, 2003)]

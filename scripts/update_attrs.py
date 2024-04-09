@@ -1,6 +1,7 @@
 # This script updates the attributes of all the zarr stores that are created by the recipe, based on the current version of meta.yaml
 
 import zarr
+import json
 import os
 import pathlib
 from ruamel.yaml import YAML
@@ -8,11 +9,9 @@ yaml = YAML(typ='safe')
 import gcsfs
 from datetime import datetime, timezone
 
-# This should probably be cleaned up with a proper installable package
-# https://stackoverflow.com/a/7506029
-import sys
-os.path.join(os.path.dirname(__file__), '..', 'feedstock/recipe.py')
-from recipe import latest_store_prefix
+with open('global_config.json') as f:
+    global_config = json.load(f)
+latest_store_prefix = global_config['latest_store_prefix']
 
 print(f"Using {latest_store_prefix=}")
 
