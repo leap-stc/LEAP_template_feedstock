@@ -26,7 +26,8 @@ jobs:
       with:
         credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
     - name: Print the env.JOB_NAME
-      run: echo "JOB_NAME: ${{ env.JOB_NAME }}"
+      run: |
+        echo "JOB_NAME: ${{ env.JOB_NAME }}"
     # - name: Wait for Dataflow jobs to finish
     #   run: |
     #     jobname="${{ github.event.inputs.jobname }}"
