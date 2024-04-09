@@ -2,7 +2,7 @@ name: Deploy Recipes to Google Dataflow
 
 env:
   JOB_NAME: ${{ github.event.inputs.recipe_id }}-${{ github.run_id }}-${{ github.run_attempt }}
-
+  # Can we sanitize the job name here to remove special characters?
 
 on:
   workflow_dispatch:
@@ -28,17 +28,20 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pangeo-forge-runner
-      - name: "Deploy recipes"
+      - name: "Check if the workflows are there?"
         run: |
-          pangeo-forge-runner bake \
-            --repo=${{ github.server_url }}/${{ github.repository }}.git \
-            --ref=${{ github.sha }} \
-            --feedstock-subdir='feedstock' \
-            --Bake.job_name=$JOB_NAME \
-            --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
-            -f configs/config_dataflow.py
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
+          ls -la .github/workflows
+      # - name: "Deploy recipes"
+      #   run: |
+      #     pangeo-forge-runner bake \
+      #       --repo=${{ github.server_url }}/${{ github.repository }}.git \
+      #       --ref=${{ github.sha }} \
+      #       --feedstock-subdir='feedstock' \
+      #       --Bake.job_name=$JOB_NAME \
+      #       --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
+      #       -f configs/config_dataflow.py
+      #   env:
+      #     GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
       - name: Wait for job completion
         uses: ./.github/workflows/check_dataflow_jobs.yaml
         with:
