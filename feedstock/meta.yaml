@@ -4,6 +4,8 @@ description: >
 recipes:
   - id: "proto-a"
     object: "recipe:proto_a"
+    pyramid_store: 'some-store-somewhere'
+    pyramid_store_public: 'false'
 
   - id: "proto-b"
     object: "recipe:proto_b"
