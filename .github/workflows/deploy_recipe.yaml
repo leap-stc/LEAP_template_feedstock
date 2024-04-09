@@ -40,8 +40,6 @@ jobs:
   check-dataflow:
     needs: deploy-recipes
     uses: ./.github/workflows/check_dataflow_jobs.yaml
-    with:
-      jobname: ${{ github.event.inputs.recipe_id }}-${{ github.run_id }}-${{ github.run_attempt }}
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
   update-attrs:
