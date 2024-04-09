@@ -20,9 +20,7 @@ jobs:
         run: |
           echo "Job Name: $JOB_NAME"
   deploy-recipes:
-    name: deploy-recipes
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: "Authenticate to Google Cloud"
@@ -34,20 +32,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pangeo-forge-runner
-      - name: "Check if the workflows are there?"
-        run: |
-          ls -la .github/workflows
       - name: "Deploy recipes"
         run: |
           pangeo-forge-runner bake \
             --repo=${{ github.server_url }}/${{ github.repository }}.git \
             --ref=${{ github.sha }} \
             --feedstock-subdir='feedstock' \
-            --Bake.job_name="$JOB_NAME" \
+            --Bake.job_name=$JOB_NAME \
             --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
             -f configs/config_dataflow.py
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
+          JOB_NAME: ${{ github.event.inputs.recipe_id }}-${{ github.run_id }}-${{ github.run_attempt }}
   check-dataflow:
     needs: deploy-recipes
     uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@chain-jobs
