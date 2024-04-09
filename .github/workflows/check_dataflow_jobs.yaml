@@ -14,6 +14,9 @@ on:
         required: true
         default: ''
         type: string
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY:
+        required: true
 
 jobs:
   check-jobs:
