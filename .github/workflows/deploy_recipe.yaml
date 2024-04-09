@@ -19,45 +19,45 @@ jobs:
       - name: "Print Job Name"
         run: |
           echo "Job Name: $JOB_NAME"
-  # deploy-recipes:
-  #   name: deploy-recipes
-  #   runs-on: ubuntu-latest
+  deploy-recipes:
+    name: deploy-recipes
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: "Authenticate to Google Cloud"
-  #       id: "auth"
-  #       uses: "google-github-actions/auth@v2"
-  #       with:
-  #         credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
-  #     - name: "Install dependencies"
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install pangeo-forge-runner
-  #     - name: "Check if the workflows are there?"
-  #       run: |
-  #         ls -la .github/workflows
-  #     - name: "Deploy recipes"
-  #       run: |
-  #         pangeo-forge-runner bake \
-  #           --repo=${{ github.server_url }}/${{ github.repository }}.git \
-  #           --ref=${{ github.sha }} \
-  #           --feedstock-subdir='feedstock' \
-  #           --Bake.job_name=$JOB_NAME \
-  #           --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
-  #           -f configs/config_dataflow.py
-  #       env:
-  #         GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
-  # check-dataflow:
-  #   needs: deploy-recipes
-  #   uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@chain-jobs
-  #   with:
-  #     jobname: $JOB_NAME
-  #   secrets:
-  #     GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
-  # update-attrs:
-  #   needs: check-dataflow
-  #   uses: leap-stc/proto_feedstock/.github/workflows/update_attrs.yaml@chain-jobs
-  #   # I want these to be referenced locally (https://github.blog/changelog/2022-01-25-github-actions-reusable-workflows-can-be-referenced-locally/)
-  #   secrets:
-  #     GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Authenticate to Google Cloud"
+        id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install pangeo-forge-runner
+      - name: "Check if the workflows are there?"
+        run: |
+          ls -la .github/workflows
+      - name: "Deploy recipes"
+        run: |
+          pangeo-forge-runner bake \
+            --repo=${{ github.server_url }}/${{ github.repository }}.git \
+            --ref=${{ github.sha }} \
+            --feedstock-subdir='feedstock' \
+            --Bake.job_name="$JOB_NAME" \
+            --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
+            -f configs/config_dataflow.py
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
+  check-dataflow:
+    needs: deploy-recipes
+    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@chain-jobs
+    with:
+      jobname: $JOB_NAME
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
+  update-attrs:
+    needs: check-dataflow
+    uses: leap-stc/proto_feedstock/.github/workflows/update_attrs.yaml@chain-jobs
+    # I want these to be referenced locally (https://github.blog/changelog/2022-01-25-github-actions-reusable-workflows-can-be-referenced-locally/)
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
