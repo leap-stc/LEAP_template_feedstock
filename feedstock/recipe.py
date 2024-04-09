@@ -52,8 +52,7 @@ class InjectAttrs(beam.PTransform):
     
     def _update_zarr_attrs(self,store: zarr.storage.FSStore) -> zarr.storage.FSStore:
         #TODO: Can we get a warning here if the store does not exist?
-        # assert isinstance(store, zarr.storage.FSStore)
-        store = zarr.storage.FSStore(store)
+        assert isinstance(store, zarr.storage.FSStore)
         store = zarr.open(store, mode='a')
         store.attrs.update(self.inject_attrs)
         #? Should we consolidate here? We are explicitly doing that later...
