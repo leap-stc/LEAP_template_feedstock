@@ -7,6 +7,10 @@ on:
         description: 'Dataflow job name to check'
         required: true
   workflow_call:
+    inputs:
+      jobname:
+        description: 'Dataflow job name to check'
+        required: true
     secrets:
       GCP_DATAFLOW_SERVICE_KEY:
         required: true
@@ -23,7 +27,7 @@ jobs:
         credentials_json: "${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}"
     - name: Wait for Dataflow jobs to finish
       run: |
-        jobname="$JOB_NAME"
+        jobname="${{ github.event.inputs.jobname }}"
         while true; do
           count=$(gcloud dataflow jobs list --status=active --filter="name:${jobname}" --format="value(id)" | wc -l)
           echo "Active Dataflow jobs: $count"
