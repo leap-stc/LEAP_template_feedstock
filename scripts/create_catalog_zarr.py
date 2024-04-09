@@ -16,6 +16,8 @@ recipe_meta = catalog_meta['recipes'][recipe_id]
 data_prefix = catalog_meta['data_store_prefix']
 catalog_prefix = catalog_meta['catalog_store_prefix']
 
+print(f"{catalog_meta=}")
+
 if 'data_store_path' in recipe_meta.keys() and 'data_store_prefix' in catalog_meta.keys():
     # raise error if both are present
     raise ValueError("Both 'data_store_path' and 'data_store_prefix' are present in the recipe metadata. Please only specify one.")
