@@ -6,13 +6,11 @@ on:
       jobname:
         description: 'Dataflow job name to check'
         required: true
-        default: ''
   workflow_call:
     inputs:
       jobname:
         description: 'Dataflow job name to check'
         required: true
-        default: ''
         type: string
     secrets:
       GCP_DATAFLOW_SERVICE_KEY:
