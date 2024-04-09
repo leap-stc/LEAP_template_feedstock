@@ -2,7 +2,6 @@
 A synthetic prototype recipe
 """
 import zarr
-import json
 import pathlib
 import os
 from dataclasses import dataclass
@@ -63,10 +62,11 @@ class InjectAttrs(beam.PTransform):
         )
 # TODO: Both these stages are generally useful. They should at least be in the utils package, maybe in recipes?
 
-# Common Parameters
-with open('global_config.json') as f:
-    global_config = json.load(f)
-latest_data_store_prefix = global_config['latest_data_store_prefix']
+# load the global config values (we will have to decide where these ultimately live)
+catalog_meta = yaml.load(open('feedstock/catalog.yaml'))
+copied_data_store_prefix = catalog_meta['data_store_prefix']
+
+
 
 # Set up injection attributes
 # This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
@@ -123,7 +123,7 @@ small = (
     |InjectAttrs(injection_attrs)
     |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
-    |Copy(target_prefix=latest_data_store_prefix)
+    |Copy(target_prefix=copied_data_store_prefix)
 )
 
 # larger recipe
@@ -138,5 +138,5 @@ large = (
     |InjectAttrs(injection_attrs)
     |ConsolidateDimensionCoordinates()
     |ConsolidateMetadata()
-    |Copy(target_prefix=latest_data_store_prefix)
+    |Copy(target_prefix=copied_data_store_prefix)
 )

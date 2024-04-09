@@ -1,4 +1,0 @@
-{
-    "latest_data_store_prefix":"gs://leap-scratch/jbusecke/proto_feedstock/latest/data",
-    "latest_catalog_store_prefix":"gs://leap-scratch/jbusecke/proto_feedstock/latest/catalog"
-}
