@@ -37,16 +37,23 @@ jobs:
       #       -f configs/config_dataflow.py
       #   env:
       #     GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
-  check-dataflow:
-    needs: deploy-recipes
-    uses: ./.github/workflows/check_dataflow_jobs.yaml
-    secrets:
-      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
-    with:
-      env:
-        JOB_NAME: ${{ github.event.inputs.recipe_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Wait for Dataflow jobs to finish
+      # I tried to make this reusable but the fucking thing would not accept env.JOB_NAME as input.
+      # AT that point, screw it, not worth it.
+        run: |
+          jobname="${{ env.JOB_NAME }}"
+          while true; do
+            count=$(gcloud dataflow jobs list --status=active --filter="name:${jobname}" --format="value(id)" | wc -l)
+            echo "Active Dataflow jobs: $count"
+            if [ "$count" -eq "0" ]; then
+              echo "No active Dataflow jobs found."
+              break
+            fi
+            echo "Waiting for Dataflow jobs to finish..."
+            sleep 30
+          done
   update-attrs:
-    needs: check-dataflow
+    needs: deploy-recipes
     uses: ./.github/workflows/update_attrs.yaml
     # I want these to be referenced locally (https://github.blog/changelog/2022-01-25-github-actions-reusable-workflows-can-be-referenced-locally/)
     secrets:

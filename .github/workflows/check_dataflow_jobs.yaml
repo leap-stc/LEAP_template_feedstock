@@ -6,11 +6,12 @@ on:
       jobname:
         description: 'Dataflow job name to check'
         required: true
-  workflow_call:
+  workflow_call: # i cant make this work at any freakding cost... for now just call it manually
     inputs:
       jobname:
         description: 'Dataflow job name to check'
         required: true
+        type: string # not sure if that gives all the trouble...
     secrets:
       GCP_DATAFLOW_SERVICE_KEY:
         required: true
@@ -28,16 +29,16 @@ jobs:
     - name: Print the env.JOB_NAME
       run: |
         echo "JOB_NAME: ${{ env.JOB_NAME }}"
-    # - name: Wait for Dataflow jobs to finish
-    #   run: |
-    #     jobname="${{ github.event.inputs.jobname }}"
-    #     while true; do
-    #       count=$(gcloud dataflow jobs list --status=active --filter="name:${jobname}" --format="value(id)" | wc -l)
-    #       echo "Active Dataflow jobs: $count"
-    #       if [ "$count" -eq "0" ]; then
-    #         echo "No active Dataflow jobs found."
-    #         break
-    #       fi
-    #       echo "Waiting for Dataflow jobs to finish..."
-    #       sleep 30
-    #     done
+    - name: Wait for Dataflow jobs to finish
+      run: |
+        jobname="${{ github.event.inputs.jobname }}"
+        while true; do
+          count=$(gcloud dataflow jobs list --status=active --filter="name:${jobname}" --format="value(id)" | wc -l)
+          echo "Active Dataflow jobs: $count"
+          if [ "$count" -eq "0" ]; then
+            echo "No active Dataflow jobs found."
+            break
+          fi
+          echo "Waiting for Dataflow jobs to finish..."
+          sleep 30
+        done
