@@ -52,8 +52,9 @@ jobs:
             echo "Waiting for Dataflow jobs to finish..."
             sleep 20
           done
-  update-attrs:
-    needs: deploy-recipes
-    uses: ./.github/workflows/update_attrs.yaml
-    secrets:
-      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
+  follow-up-task:
+    runs-on: ubuntu-latest
+    steps:
+    - name: just a dummy for now
+      run: |
+        echo "Here we would run the catalog zarr recipe in line"
