@@ -11,7 +11,6 @@ from datetime import datetime, timezone
 fs = gcsfs.GCSFileSystem()
 
 # # For later, get the current git hash and add to the updated attribute
-git_hash = os.popen('git rev-parse HEAD').read().strip()
 timestamp = datetime.now(timezone.utc).isoformat()
 
 # read info from meta.yaml
@@ -52,7 +51,8 @@ for recipe in meta['recipes']:
     attr_updates = recipe | top_level_meta
     
     # Information for reproducibility
-    attr_updates['attrs_updated_git_hash'] = git_hash
-    attr_updates['attrs_updated_time_utc'] = timestamp 
+    attr_updates['attrs_updated_source'] = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{os.environ['GITHUB_SHA']}"
+    attr_updates['attrs_updated_time_utc'] = timestamp
+    
     check_path = update_zarr_attrs(store_path, attr_updates)
     print(f"Updated {check_path} with {attr_updates=}")
