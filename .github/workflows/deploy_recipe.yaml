@@ -44,13 +44,13 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
   check-dataflow:
     needs: deploy-recipes
-    uses: ./proto_feedstock/.github/workflows/check_dataflow_jobs.yaml
+    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@chain-jobs
     with:
       jobname: $JOB_NAME
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
   update-attrs:
     needs: check-dataflow
-    uses: ./.github/workflows/update_attrs.yaml
+    uses: leap-stc/proto_feedstock/.github/workflows/update_attrs.yaml@chain-jobs
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
