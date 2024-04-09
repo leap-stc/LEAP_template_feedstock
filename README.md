@@ -6,10 +6,13 @@ You need to set the repo action secret `"GCP_DATAFLOW_SERVICE_KEY"` as an auth J
 
 ## What does this do?
 
+
+
+### Deploy recipes based on workflow input
+To deploy a recipe to Google Dataflow you have to trigger the "Deploy Recipes to Google Dataflow" with a single `recipe_id` as input. 
+
 ### Update output zarr attrs from meta.yaml
-
-
-### Run a full recipe
+This will run as part of the Recipe 
 
 ## How to run locally
 mamba create -n runner0102 python=3.11 -y
