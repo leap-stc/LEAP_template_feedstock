@@ -47,7 +47,10 @@ jobs:
     uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@chain-jobs
     with:
       jobname: $JOB_NAME
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
   just-another-job:
+    needs: check-dataflow
     runs-on: ubuntu-latest
     steps:
       - name: Just another step
