@@ -31,28 +31,24 @@ jobs:
       - name: "Check if the workflows are there?"
         run: |
           ls -la .github/workflows
-      # - name: "Deploy recipes"
-      #   run: |
-      #     pangeo-forge-runner bake \
-      #       --repo=${{ github.server_url }}/${{ github.repository }}.git \
-      #       --ref=${{ github.sha }} \
-      #       --feedstock-subdir='feedstock' \
-      #       --Bake.job_name=$JOB_NAME \
-      #       --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
-      #       -f configs/config_dataflow.py
-      #   env:
-      #     GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
+      - name: "Deploy recipes"
+        run: |
+          pangeo-forge-runner bake \
+            --repo=${{ github.server_url }}/${{ github.repository }}.git \
+            --ref=${{ github.sha }} \
+            --feedstock-subdir='feedstock' \
+            --Bake.job_name=$JOB_NAME \
+            --Bake.recipe_id=${{ github.event.inputs.recipe_id }} \
+            -f configs/config_dataflow.py
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.auth.outputs.credentials_file_path }}"
   check-dataflow:
     needs: deploy-recipes
-    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@chain-jobs
+    uses: leap-stc/proto_feedstock/.github/workflows/check_dataflow_jobs.yaml@${{ github.sha }}
     with:
       jobname: $JOB_NAME
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
-  just-another-job:
+  update-attrs:
     needs: check-dataflow
-    runs-on: ubuntu-latest
-    steps:
-      - name: Just another step
-        run: echo "This is just another step"
-      
+    uses: leap-stc/proto_feedstock/.github/workflows/update_attrs.yaml@${{ github.sha }}
