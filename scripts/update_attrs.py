@@ -7,7 +7,13 @@ from ruamel.yaml import YAML
 yaml = YAML(typ='safe')
 import gcsfs
 from datetime import datetime, timezone
-from .feedstock.recipe import latest_store_prefix
+
+# This should probably be cleaned up with a proper installable package
+# https://stackoverflow.com/a/7506029
+import sys
+os.path.join(os.path.dirname(__file__), '..', 'feedstock/recipe.py')
+from recipe import latest_store_prefix
+
 print(f"Using {latest_store_prefix=}")
 
 fs = gcsfs.GCSFileSystem()
