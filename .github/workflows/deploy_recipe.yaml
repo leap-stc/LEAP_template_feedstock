@@ -55,6 +55,5 @@ jobs:
   update-attrs:
     needs: deploy-recipes
     uses: ./.github/workflows/update_attrs.yaml
-    # I want these to be referenced locally (https://github.blog/changelog/2022-01-25-github-actions-reusable-workflows-can-be-referenced-locally/)
     secrets:
       GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
