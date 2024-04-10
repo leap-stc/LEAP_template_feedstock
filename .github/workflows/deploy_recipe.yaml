@@ -54,8 +54,8 @@ jobs:
           done
   follow-up-task:
     needs: deploy-recipes
-    runs-on: ubuntu-latest
-    steps:
-    - name: just a dummy for now
-      run: |
-        echo "Here we would run the catalog zarr recipe in line"
+    uses: ./.github/workflows/create_catalog_zarr.yaml
+    with:
+      recipe_id: ${{ github.event.inputs.recipe_id }}
+    secrets:
+      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
