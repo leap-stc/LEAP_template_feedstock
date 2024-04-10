@@ -4,6 +4,17 @@ catalog_store_prefix: "gs://leap-scratch/jbusecke/proto_feedstock/latest/catalog
 recipes:
   small:
     pyramid_store_path: "gs://some-bucket/some-path"
-    extra_metadata:
+    extra_metadata: 
+      'ncviewjs:rechunking': 
+        'path': 's3://carbonplan-share/LEAP/WOA_pyramid.zarr'
+        'use_case': 'multiscales'
+      'ncviewjs:meta_yaml_url': 'https://github.com/pangeo-forge/WOA_1degree_monthly-feedstock/blob/main/feedstock/meta.yaml'
+      'ncviewjs:store_url': 'https://ncsa.osn.xsede.org/Pangeo/pangeo-forge/WOA_1degree_monthly-feedstock/woa18-1deg-monthly.zarr'
+      'ncviewjs:cf_axes': 
+        'A_an': 
+          'X': 'lon'
+          'Y': 'lat'
+          'Z': 'depth'
+          'T': 'time'
       field: "value"
       another_field: "another_value"
