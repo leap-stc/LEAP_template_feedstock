@@ -52,10 +52,3 @@ jobs:
             echo "Waiting for Dataflow jobs to finish..."
             sleep 20
           done
-  follow-up-task:
-    needs: deploy-recipes
-    uses: ./.github/workflows/create_catalog_zarr.yaml
-    with:
-      recipe_id: ${{ github.event.inputs.recipe_id }}
-    secrets:
-      GCP_DATAFLOW_SERVICE_KEY: ${{ secrets.GCP_DATAFLOW_SERVICE_KEY }}
