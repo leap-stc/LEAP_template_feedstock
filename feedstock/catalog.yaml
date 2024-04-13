@@ -1,6 +1,5 @@
 # All the information important to cataloging.
 data_store_prefix: "gs://leap-scratch/jbusecke/proto_feedstock/latest/data"
-catalog_store_prefix: "gs://leap-scratch/jbusecke/proto_feedstock/latest/catalog"
 recipes:
   small:
     pyramid_store_path: "gs://some-bucket/some-path"
