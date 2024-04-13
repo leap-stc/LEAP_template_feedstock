@@ -26,7 +26,7 @@ pangeo-forge-runner bake \
   --feedstock-subdir='feedstock' \
   --Bake.job_name=<recipe_id>\
   --Bake.recipe_id=<recipe_id>\
-  -f config_local.py
+  -f configs/config_local.py
 ```
 
 >[!NOTE]
