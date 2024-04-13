@@ -45,6 +45,7 @@ Once you are happy with the output it is time to commit your work to git, push t
 ### Activate the linting CI and clean up your repo
 [Pre-Commit](https://pre-commit.com) linting is already pre-configured in this repository. To run the checks locally simply do:
 ```shell
+pip install pre-commit
 pre-commit install
 pre-commit run --all-files
 ```
