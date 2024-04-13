@@ -42,6 +42,17 @@ pangeo-forge-runner bake \
 
 Once you are happy with the output it is time to commit your work to git, push to github and get this recipe set up for ingestion using [Google Dataflow](https://cloud.google.com/dataflow?hl=en)
 
+### Activate the linting CI and clean up your repo
+[Pre-Commit](https://pre-commit.com) linting is already pre-configured in this repository. To run the checks locally simply do:
+```shell
+pre-commit install
+pre-commit run --all-files
+```
+Then create a new branch and add those fixes (and others that were not able to auto-fix). From now on pre-commit will run checks after every commit. 
+
+Alternatively (or additionally) you can use the  [pre-commit CI Github App](https://results.pre-commit.ci/) to run these checks as part of every PR. 
+To proceed with this step you will need assistance a memeber of the [LEAP Data and Computation Team](https://leap-stc.github.io/support.html#data-and-computation-team). Please open an issue on this repository and tag `@leap-stc/data-and-compute` and ask for this repository to be added to the pre-commit.ci app.
+
 ### Deploy your recipe to LEAPs Google Dataflow
 
 >[!WARNING]
