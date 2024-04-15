@@ -110,6 +110,12 @@ input_urls_b = [
 pattern_a = pattern_from_file_sequence(input_urls_a, concat_dim="time")
 pattern_b = pattern_from_file_sequence(input_urls_b, concat_dim="time")
 
+print(f"{catalog_meta=}")
+target_small = find_recipe_meta(catalog_meta, "small")["url"]
+target_large = find_recipe_meta(catalog_meta, "large")["url"]
+print(f"{target_small=}")
+print(f"{target_large=}")
+
 # small recipe
 small = (
     beam.Create(pattern_a.items())
@@ -125,7 +131,7 @@ small = (
     | InjectAttrs(injection_attrs)
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
-    | Copy(target=find_recipe_meta(catalog_meta, "small")["url"])
+    | Copy(target=target_small)
 )
 
 # larger recipe
@@ -140,5 +146,5 @@ large = (
     | InjectAttrs(injection_attrs)
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
-    | Copy(target_prefix=find_recipe_meta(catalog_meta, "large")["url"])
+    | Copy(target=target_large)
 )
