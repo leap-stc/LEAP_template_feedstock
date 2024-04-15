@@ -7,9 +7,9 @@ A Prototype feedstock that implements independent metadata and data updates usin
 - Make sure to also edit the other files in the `/feedstock/` directory. More info on feedstock structure can be found [here](https://pangeo-forge.readthedocs.io/en/latest/deployment/feedstocks.html#meta-yaml)
 
 ### Test your recipe locally
-Before we run your recipe on LEAPs Dataflow runner you should test your recipe locally. 
+Before we run your recipe on LEAPs Dataflow runner you should test your recipe locally.
 
-You can do that on the LEAP-Pangeo Jupyterhub or your own computer. 
+You can do that on the LEAP-Pangeo Jupyterhub or your own computer.
 
 1. Set up an environment with mamba or conda:
 ```shell
@@ -26,7 +26,7 @@ pangeo-forge-runner bake \
   --feedstock-subdir='feedstock' \
   --Bake.job_name=<recipe_id>\
   --Bake.recipe_id=<recipe_id>\
-  -f config_local.py
+  -f configs/config_local.py
 ```
 
 >[!NOTE]
@@ -35,19 +35,31 @@ pangeo-forge-runner bake \
 >If you created multiple recipes you have to run a call like above for each one.
 
 
-3. Check the output! If something looks off edit your recipe. 
+3. Check the output! If something looks off edit your recipe.
 >[!TIP]
 >The above command will by default 'prune' the recipe, meaning it will only use two of the input files you provided to avoid creating too large output.
 >Keep that in mind when you check the output for correctness.
 
 Once you are happy with the output it is time to commit your work to git, push to github and get this recipe set up for ingestion using [Google Dataflow](https://cloud.google.com/dataflow?hl=en)
 
+### Activate the linting CI and clean up your repo
+[Pre-Commit](https://pre-commit.com) linting is already pre-configured in this repository. To run the checks locally simply do:
+```shell
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```
+Then create a new branch and add those fixes (and others that were not able to auto-fix). From now on pre-commit will run checks after every commit.
+
+Alternatively (or additionally) you can use the  [pre-commit CI Github App](https://results.pre-commit.ci/) to run these checks as part of every PR.
+To proceed with this step you will need assistance a memeber of the [LEAP Data and Computation Team](https://leap-stc.github.io/support.html#data-and-computation-team). Please open an issue on this repository and tag `@leap-stc/data-and-compute` and ask for this repository to be added to the pre-commit.ci app.
+
 ### Deploy your recipe to LEAPs Google Dataflow
 
 >[!WARNING]
 >To proceed with this step you will need to have certain repository secrets set up. For security reasons this should be done by a memeber of the [LEAP Data and Computation Team](https://leap-stc.github.io/support.html#data-and-computation-team). Please open an issue on this repository and tag `@leap-stc/data-and-compute` to get assistance.
 
-To deploy a recipe to Google Dataflow you have to trigger the "Deploy Recipes to Google Dataflow" with a single `recipe_id` as input. 
+To deploy a recipe to Google Dataflow you have to trigger the "Deploy Recipes to Google Dataflow" with a single `recipe_id` as input.
 
 ### Add your dataset to the LEAP-Pangeo Catalog
 Now that your awesome dataset is available as an ARCO zarr store, you should make sure that everyone else at LEAP can check this dataset out easily.
