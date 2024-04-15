@@ -4,11 +4,13 @@ tags:
   - my-custom-tag
   - zarr
 stores:
-  - name: small.zarr
-    url: "gs://leap-scratch/jbusecke/proto_feedstock/latest/data/small.zarr"
+  - id: "small"
+    name: "The cool small Proto Dataset"
+    url: "gs://leap-scratch/data-library/feedstocks/latest/proto_feedstock/small.zarr"
     "ncviewjs:rechunking":
       - path: "gs://some-bucket/small.zarr"
         use_case: "multiscales"
 
-  - name: large.zarr # no pyramids
-    url: "gs://leap-scratch/jbusecke/proto_feedstock/latest/data/large.zarr"
+  - id: "large"
+    name: "The even cooler large Proto Dataset" # no pyramids
+    url: "gs://leap-scratch/data-library/feedstocks/latest/proto_feedstock/large.zarr"
