@@ -1,4 +1,9 @@
-# FEEDSTOCK_NAME = "proto_feedstock"  # Can we get this at runtime?
+# This assumes that runner is called from a github action
+# where these environment variables are set.
+import os
+repo_path = os.environ['GITHUB_REPOSITORY']
+FEEDSTOCK_NAME = repo_path.split('/')[-1]
+
 c.Bake.prune = 1
 c.Bake.bakery_class = "pangeo_forge_runner.bakery.dataflow.DataflowBakery"
 c.DataflowBakery.use_dataflow_prime = False
