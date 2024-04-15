@@ -2,6 +2,14 @@
 The prototype (and future template) of a LEAP-Pangeo feedstock.
 
 ## Setup
+### Use this template
+Click on the button on the top left to use this repository as a template for your new feedstock
+<img width="749" alt="image" src="https://github.com/leap-stc/proto_feedstock/assets/14314623/c786b2c7-adf1-4d4c-9811-0c7a1aa9228c">
+
+Name your feedstock according to your data  `<your_data>_feedstock`. 
+
+Now you can locally check out the repository.
+
 ### Build your recipe
 - Edit the `feedstock/recipe.py` to build your pangeo-forge recipe. If you are new to pangeo-forge, [the docs](https://pangeo-forge.readthedocs.io/en/latest/composition/index.html#overview) are a great starting point
 - Make sure to also edit the other files in the `/feedstock/` directory. More info on feedstock structure can be found [here](https://pangeo-forge.readthedocs.io/en/latest/deployment/feedstocks.html#meta-yaml)
