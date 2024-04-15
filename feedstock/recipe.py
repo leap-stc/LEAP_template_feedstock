@@ -67,16 +67,14 @@ class InjectAttrs(beam.PTransform):
 catalog_meta = yaml.load(open("feedstock/catalog.yaml"))
 
 
-def find_recipe_meta(
-    catalog_meta: List[Dict[str, str]], recipe_id: str
-) -> Dict[str, str]:
+def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str, str]:
     # Iterate over each dictionary in the list
     for d in catalog_meta:
         # Check if the 'id' key matches the search_id
-        if d["id"] == recipe_id:
+        if d["id"] == r_id:
             return d
     print(
-        f"Could not find {recipe_id=}. Got the following recipe_ids: {[d['id'] for d in catalog_meta]}"
+        f"Could not find {r_id=}. Got the following recipe_ids: {[d['id'] for d in catalog_meta]}"
     )
     return None  # Return None if no matching dictionary is found
 
