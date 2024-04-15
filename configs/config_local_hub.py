@@ -11,7 +11,7 @@ try:
     return repo_name
 except subprocess.CalledProcessError as e:
     raise
-  
+
 BUCKET_PREFIX = f"gs://leap-scratch/{user}/{repo_name}"
 
 c.Bake.prune = 1
