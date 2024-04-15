@@ -13,8 +13,8 @@ provenance:
       roles:
         - producer
         - licensor
-  maintainers:
-    - name: "Julius Busecke"
-      orcid: "0000-0001-8571-865X"
-      github: jbusecke
   license: "Just a Test"
+maintainers:
+  - name: "Julius Busecke"
+    orcid: "0000-0001-8571-865X"
+    github: jbusecke
