@@ -1,5 +1,5 @@
-c.Bake.prune = 0
-c.Bake.bakery_class = "pangeo_forge_runner.bakery.local.LocalDirectBakery"
+c.Bake.prune = 1
+c.Bake.bakery_class = 'pangeo_forge_runner.bakery.local.LocalDirectBakery'
 BUCKET_PREFIX = "./pangeo-forge-runner-output"
 c.TargetStorage.fsspec_class = "fsspec.implementations.local.LocalFileSystem"
 c.InputCacheStorage.fsspec_class = "fsspec.implementations.local.LocalFileSystem"
