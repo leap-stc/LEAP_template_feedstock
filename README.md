@@ -18,7 +18,8 @@ conda activate runner0102
 pip install pangeo-forge-runner==0.10.2 --no-cache-dir
 ```
 
-2. You can now use [pangeo-forge-runner](https://github.com/pangeo-forge/pangeo-forge-runner) from the root directory of this repository in the terminal:
+2. You can now use [pangeo-forge-runner](https://github.com/pangeo-forge/pangeo-forge-runner) from the root directory of a checked out version of this repository in the shell
+
 ```shell
 pangeo-forge-runner bake \
   --repo=./ \
@@ -28,11 +29,15 @@ pangeo-forge-runner bake \
   --Bake.recipe_id=<recipe_id>\
   -f configs/config_local.py
 ```
-
 >[!NOTE]
 > Make sure to replace the `'recipe_id'` with the one defined in your `feedstock/meta.yaml` file.
 >
 >If you created multiple recipes you have to run a call like above for each one.
+
+> This will save the cache and output to a subfolder of the location you are executing this from.
+> If you are working on the LEAP-Pangeo hub you can just swap `configs/config_local.py` with `configs/config_local_hub.py`. This will still execute the recipe locally, but the cache and data will be stored on the LEAP scratch bucket ( under `gs://leap-scratch/<user>/<repo_name>` where `user` is your username and `repo_name` is the name of the checked out repository) and thus not exceed your allowed storage on the User Directory.
+
+
 
 
 3. Check the output! If something looks off edit your recipe.
