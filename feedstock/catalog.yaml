@@ -1,8 +1,14 @@
 # All the information important to cataloging.
-data_store_prefix: "gs://leap-scratch/jbusecke/proto_feedstock/latest/data"
-recipes:
-  small:
-    pyramid_store_path: "gs://some-bucket/some-path"
-    extra_metadata:
-      field: "value"
-      another_field: "another_value"
+"ncviewjs:meta_yaml_url": "https://github.com/leap-stc/proto_feedstock/blob/main/feedstock/meta.yaml"
+tags:
+  - my-custom-tag
+  - zarr
+stores:
+  - name: small.zarr
+    url: "gs://leap-scratch/jbusecke/proto_feedstock/latest/data/small.zarr"
+    "ncviewjs:rechunking":
+      - path: "gs://some-bucket/small.zarr"
+        use_case: "multiscales"
+
+  - name: large.zarr # no pyramids
+    url: "gs://leap-scratch/jbusecke/proto_feedstock/latest/data/large.zarr"
