@@ -11,7 +11,7 @@ Name your feedstock according to your data  `<your_data>_feedstock`.
 
 >[!WARNING]
 > - Make sure to create the repo under the `leap-stc` github organization, not your personal account! If you already did that, you can always transfer the ownership afterwards.
-> - Name your feedstock according to your data  `<your_data>_feedstock`. 
+> - Name your feedstock according to your data  `<your_data>_feedstock`.
 
 Now you can locally check out the repository.
 
