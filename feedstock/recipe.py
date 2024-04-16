@@ -20,6 +20,7 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
+
 # copied from cmip feedstock (TODO: move to central repo?)
 @dataclass
 class Copy(beam.PTransform):
@@ -63,7 +64,8 @@ class InjectAttrs(beam.PTransform):
     ) -> beam.PCollection[zarr.storage.FSStore]:
         return pcoll | "Injecting Attributes" >> beam.Map(self._update_zarr_attrs)
 
-def get_pangeo_forge_build_attrs()-> dict[str, Any]:
+
+def get_pangeo_forge_build_attrs() -> dict[str, Any]:
     """Get build information (git hash and time) to add to the recipe output"""
     # Set up injection attributes
     # This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
@@ -75,11 +77,12 @@ def get_pangeo_forge_build_attrs()-> dict[str, Any]:
 
     git_url_hash = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{os.environ['GITHUB_SHA']}"
     timestamp = datetime.now(timezone.utc).isoformat()
-    
+
     return {
         "pangeo_forge_build_git_hash": git_url_hash,
         "pangeo_forge_build_timestamp": timestamp,
     }
+
 
 # TODO: Both these stages are generally useful. They should at least be in the utils package, maybe in recipes?
 
@@ -95,10 +98,11 @@ def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str,
     )
     return None  # Return None if no matching dictionary is found
 
+
 # load the global config values (we will have to decide where these ultimately live)
 catalog_meta = yaml.load(open("feedstock/catalog.yaml"))
 
-if os.getenv('GITHUB_ACTIONS') == 'true':
+if os.getenv("GITHUB_ACTIONS") == "true":
     print("Running inside GitHub Actions.")
 
     # Get final store path from catalog.yaml input
@@ -111,7 +115,7 @@ else:
     target_small = False
     target_large = False
     pgf_build_attrs = {}
-    
+
 print("Final output locations")
 print(f"{target_small=}")
 print(f"{target_large=}")
@@ -129,7 +133,6 @@ input_urls_b = [
 
 pattern_a = pattern_from_file_sequence(input_urls_a, concat_dim="time")
 pattern_b = pattern_from_file_sequence(input_urls_b, concat_dim="time")
-
 
 
 # small recipe
