@@ -5,7 +5,7 @@ A synthetic prototype recipe
 import zarr
 import os
 from dataclasses import dataclass
-from typing import List, Dict
+from typing import List, Dict, Any
 import apache_beam as beam
 from datetime import datetime, timezone
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
