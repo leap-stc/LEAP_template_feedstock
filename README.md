@@ -6,7 +6,7 @@ The prototype (and future template) of a LEAP-Pangeo feedstock.
 Click on the button on the top left to use this repository as a template for your new feedstock
 <img width="749" alt="image" src="https://github.com/leap-stc/proto_feedstock/assets/14314623/c786b2c7-adf1-4d4c-9811-0c7a1aa9228c">
 
-Name your feedstock according to your data  `<your_data>_feedstock`. 
+Name your feedstock according to your data  `<your_data>_feedstock`.
 
 Now you can locally check out the repository.
 
