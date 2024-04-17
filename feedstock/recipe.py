@@ -3,8 +3,9 @@ A synthetic prototype recipe
 """
 
 import os
-from typing import List, Dict
+from typing import List, Dict, Any
 import apache_beam as beam
+from datetime import datetime, timezone
 from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.transforms import (
