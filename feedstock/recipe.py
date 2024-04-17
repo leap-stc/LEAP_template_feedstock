@@ -2,10 +2,9 @@
 A synthetic prototype recipe
 """
 
-import zarr
 import os
-from dataclasses import dataclass
 from typing import List, Dict, Any
+from typing import List, Dict
 import apache_beam as beam
 from datetime import datetime, timezone
 from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs
@@ -21,6 +20,9 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
+# load the global config values (we will have to decide where these ultimately live)
+catalog_meta = yaml.load(open("feedstock/catalog.yaml"))
+
 def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str, str]:
     # Iterate over each dictionary in the list
     for d in catalog_meta:
@@ -31,10 +33,6 @@ def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str,
         f"Could not find {r_id=}. Got the following recipe_ids: {[d['id'] for d in catalog_meta]}"
     )
     return None  # Return None if no matching dictionary is found
-
-
-# load the global config values (we will have to decide where these ultimately live)
-catalog_meta = yaml.load(open("feedstock/catalog.yaml"))
 
 if os.getenv("GITHUB_ACTIONS") == "true":
     print("Running inside GitHub Actions.")
