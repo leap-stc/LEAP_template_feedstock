@@ -3,7 +3,7 @@ A synthetic prototype recipe
 """
 
 import os
-from typing import List, Dict
+from typing import List, Dict, Any
 import apache_beam as beam
 from datetime import datetime, timezone
 from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs
@@ -18,7 +18,6 @@ from pangeo_forge_recipes.transforms import (
 from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
-
 
 # load the global config values (we will have to decide where these ultimately live)
 catalog_meta = yaml.load(open("feedstock/catalog.yaml"))
@@ -36,21 +35,43 @@ def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str,
     return None  # Return None if no matching dictionary is found
 
 
-# Set up injection attributes
-# This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
-# - Bake in information from the top level of the meta.yaml
-# - Add a timestamp
-# - Add the git hash
-# - Add link to the meta.yaml on main
-# - Add the recipe id
+def get_pangeo_forge_build_attrs() -> dict[str, Any]:
+    """Get build information (git hash and time) to add to the recipe output"""
+    # Set up injection attributes
+    # This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
+    # - Bake in information from the top level of the meta.yaml
+    # - Add a timestamp
+    # - Add the git hash
+    # - Add link to the meta.yaml on main
+    # - Add the recipe id
 
-git_url_hash = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{os.environ['GITHUB_SHA']}"
-timestamp = datetime.now(timezone.utc).isoformat()
+    git_url_hash = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{os.environ['GITHUB_SHA']}"
+    timestamp = datetime.now(timezone.utc).isoformat()
 
-injection_attrs = {
-    "pangeo_forge_build_git_hash": git_url_hash,
-    "pangeo_forge_build_timestamp": timestamp,
-}
+    return {
+        "pangeo_forge_build_git_hash": git_url_hash,
+        "pangeo_forge_build_timestamp": timestamp,
+    }
+
+
+if os.getenv("GITHUB_ACTIONS") == "true":
+    print("Running inside GitHub Actions.")
+
+    # Get final store path from catalog.yaml input
+    target_small = find_recipe_meta(catalog_meta["stores"], "small")["url"]
+    target_large = find_recipe_meta(catalog_meta["stores"], "large")["url"]
+    pgf_build_attrs = get_pangeo_forge_build_attrs()
+else:
+    print("Running locally. Deactivating final copy stage.")
+    # this deactivates the final copy stage for local testing execution
+    target_small = False
+    target_large = False
+    pgf_build_attrs = {}
+
+print("Final output locations")
+print(f"{target_small=}")
+print(f"{target_large=}")
+print(f"{pgf_build_attrs=}")
 
 ## Monthly version
 input_urls_a = [
@@ -65,11 +86,6 @@ input_urls_b = [
 pattern_a = pattern_from_file_sequence(input_urls_a, concat_dim="time")
 pattern_b = pattern_from_file_sequence(input_urls_b, concat_dim="time")
 
-print(f"{catalog_meta=}")
-target_small = find_recipe_meta(catalog_meta["stores"], "small")["url"]
-target_large = find_recipe_meta(catalog_meta["stores"], "large")["url"]
-print(f"{target_small=}")
-print(f"{target_large=}")
 
 # small recipe
 small = (
@@ -83,7 +99,7 @@ small = (
         # Maybe its better to find another way and avoid injections entirely...
         combine_dims=pattern_a.combine_dim_keys,
     )
-    | InjectAttrs(injection_attrs)
+    | InjectAttrs(pgf_build_attrs)
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
     | Copy(target=target_small)
@@ -98,7 +114,7 @@ large = (
         store_name="large.zarr",
         combine_dims=pattern_b.combine_dim_keys,
     )
-    | InjectAttrs(injection_attrs)
+    | InjectAttrs(pgf_build_attrs)
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
     | Copy(target=target_large)
