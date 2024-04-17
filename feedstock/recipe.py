@@ -33,6 +33,7 @@ def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str,
     )
     return None  # Return None if no matching dictionary is found
 
+
 def get_pangeo_forge_build_attrs() -> dict[str, Any]:
     """Get build information (git hash and time) to add to the recipe output"""
     # Set up injection attributes
