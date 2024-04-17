@@ -33,6 +33,24 @@ def find_recipe_meta(catalog_meta: List[Dict[str, str]], r_id: str) -> Dict[str,
     )
     return None  # Return None if no matching dictionary is found
 
+def get_pangeo_forge_build_attrs() -> dict[str, Any]:
+    """Get build information (git hash and time) to add to the recipe output"""
+    # Set up injection attributes
+    # This is for demonstration purposes only and should be discussed with the broader LEAP/PGF community
+    # - Bake in information from the top level of the meta.yaml
+    # - Add a timestamp
+    # - Add the git hash
+    # - Add link to the meta.yaml on main
+    # - Add the recipe id
+
+    git_url_hash = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/commit/{os.environ['GITHUB_SHA']}"
+    timestamp = datetime.now(timezone.utc).isoformat()
+
+    return {
+        "pangeo_forge_build_git_hash": git_url_hash,
+        "pangeo_forge_build_timestamp": timestamp,
+    }
+
 
 if os.getenv("GITHUB_ACTIONS") == "true":
     print("Running inside GitHub Actions.")
