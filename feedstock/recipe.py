@@ -2,12 +2,11 @@
 A synthetic prototype recipe
 """
 
-import zarr
 import os
-from dataclasses import dataclass
 from typing import List, Dict
 import apache_beam as beam
 from datetime import datetime, timezone
+from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.transforms import (
     OpenURLWithFSSpec,
@@ -20,48 +19,6 @@ from ruamel.yaml import YAML
 
 yaml = YAML(typ="safe")
 
-
-# copied from cmip feedstock (TODO: move to central repo?)
-@dataclass
-class Copy(beam.PTransform):
-    target: str
-
-    def _copy(self, store: zarr.storage.FSStore) -> zarr.storage.FSStore:
-        import os
-        import zarr
-        import gcsfs
-
-        # We do need the gs:// prefix?
-        # TODO: Determine this dynamically from zarr.storage.FSStore
-        source = f"gs://{os.path.normpath(store.path)}/"  # FIXME more elegant. `.copytree` needs trailing slash
-        fs = gcsfs.GCSFileSystem()  # FIXME: How can we generalize this?
-        fs.cp(source, self.target, recursive=True)
-        # return a new store with the new path that behaves exactly like the input
-        # to this stage (so we can slot this stage right before testing/logging stages)
-        return zarr.storage.FSStore(self.target)
-
-    def expand(self, pcoll: beam.PCollection) -> beam.PCollection:
-        return pcoll | "Copying Store" >> beam.Map(self._copy)
-
-
-@dataclass
-class InjectAttrs(beam.PTransform):
-    inject_attrs: dict
-
-    def _update_zarr_attrs(self, store: zarr.storage.FSStore) -> zarr.storage.FSStore:
-        # TODO: Can we get a warning here if the store does not exist?
-        attrs = zarr.open(store, mode="a").attrs
-        attrs.update(self.inject_attrs)
-        # ? Should we consolidate here? We are explicitly doing that later...
-        return store
-
-    def expand(
-        self, pcoll: beam.PCollection[zarr.storage.FSStore]
-    ) -> beam.PCollection[zarr.storage.FSStore]:
-        return pcoll | "Injecting Attributes" >> beam.Map(self._update_zarr_attrs)
-
-
-# TODO: Both these stages are generally useful. They should at least be in the utils package, maybe in recipes?
 
 # load the global config values (we will have to decide where these ultimately live)
 catalog_meta = yaml.load(open("feedstock/catalog.yaml"))
