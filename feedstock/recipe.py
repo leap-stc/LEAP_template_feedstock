@@ -4,7 +4,11 @@ A synthetic prototype recipe
 
 import os
 import apache_beam as beam
-from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs, get_catalog_store_urls
+from leap_data_management_utils.data_management_transforms import (
+    Copy,
+    InjectAttrs,
+    get_catalog_store_urls,
+)
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.transforms import (
     OpenURLWithFSSpec,
