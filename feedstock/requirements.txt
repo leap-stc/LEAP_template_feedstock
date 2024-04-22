@@ -1,4 +1,4 @@
 pangeo-forge-recipes==0.10.7
 apache-beam[gcp]
 gcsfs
-git+git@github.com:leap-stc/leap-data-management-utils.git@upstream-attrs-and-catalog-parsing
+git+https://github.com/leap-stc/leap-data-management-utils.git@upstream-attrs-and-catalog-parsing
