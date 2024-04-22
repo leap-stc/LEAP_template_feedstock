@@ -56,7 +56,7 @@ small = (
     | InjectAttrs()
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
-    | Copy(target=catalog_store_urls['small'])
+    | Copy(target=catalog_store_urls["small"])
 )
 
 # larger recipe
@@ -71,5 +71,5 @@ large = (
     | InjectAttrs()
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
-    | Copy(target=catalog_store_urls['large'])
+    | Copy(target=catalog_store_urls["large"])
 )
