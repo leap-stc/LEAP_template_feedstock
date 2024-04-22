@@ -9,7 +9,7 @@ c.Bake.bakery_class = "pangeo_forge_runner.bakery.dataflow.DataflowBakery"
 c.DataflowBakery.use_dataflow_prime = False
 c.DataflowBakery.use_public_ips = True
 c.DataflowBakery.service_account_email = (
-    "julius-leap-dataflow@leap-pangeo.iam.gserviceaccount.com"
+    "leap-community-bakery@leap-pangeo.iam.gserviceaccount.com"
 )
 c.DataflowBakery.project_id = "leap-pangeo"
 c.DataflowBakery.temp_gcs_location = f"gs://leap-scratch/data-library/feedstocks/temp/{FEEDSTOCK_NAME}"
