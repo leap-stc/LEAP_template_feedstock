@@ -40,8 +40,6 @@ pip install pangeo-forge-runner==0.10.2 --no-cache-dir
 ```shell
 pangeo-forge-runner bake \
   --repo=./ \
-  --ref=main \
-  --feedstock-subdir='feedstock' \
   --Bake.recipe_id=<recipe_id>\
   -f configs/config_local_hub.py
 ```
