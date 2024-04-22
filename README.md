@@ -15,7 +15,11 @@ The prototype (and future template) of a LEAP-Pangeo feedstock.
 
 - Now you can locally check out the repository.
 
-### Build your recipe
+> [!NOTE]
+> The instructions below are specific for testing recipes locally but downloading and producing data on GCS cloud buckets. If you are running the recipes locally you have to minimally modify some of the steps as noted below.
+
+### Build and test your recipe locally on the LEAP-Pangeo Jupyterhub
+
 - Edit the `feedstock/recipe.py` to build your pangeo-forge recipe. If you are new to pangeo-forge, [the docs](https://pangeo-forge.readthedocs.io/en/latest/composition/index.html#overview) are a great starting point
 - Make sure to also edit the other files in the `/feedstock/` directory. More info on feedstock structure can be found [here](https://pangeo-forge.readthedocs.io/en/latest/deployment/feedstocks.html#meta-yaml)
 
@@ -38,22 +42,20 @@ pangeo-forge-runner bake \
   --repo=./ \
   --ref=main \
   --feedstock-subdir='feedstock' \
-  --Bake.job_name=<recipe_id>\
   --Bake.recipe_id=<recipe_id>\
-  -f configs/config_local.py
+  -f configs/config_local_hub.py
 ```
 >[!NOTE]
 > Make sure to replace the `'recipe_id'` with the one defined in your `feedstock/meta.yaml` file.
 >
 >If you created multiple recipes you have to run a call like above for each one.
 
-> This will save the cache and output to a subfolder of the location you are executing this from.
-> If you are working on the LEAP-Pangeo hub you can just swap `configs/config_local.py` with `configs/config_local_hub.py`. This will still execute the recipe locally, but the cache and data will be stored on the LEAP scratch bucket ( under `gs://leap-scratch/<user>/<repo_name>` where `user` is your username and `repo_name` is the name of the checked out repository) and thus not exceed your allowed storage on the User Directory.
-
-
-
+> To run this fully local (e.g. on your laptop) you have to replace `config_local_hub.py` with  `config_local.py`.
+>
+> ⚠️ This will save the cache and output to a subfolder of the location you are executing this from.. Make sure do delete them once you are done with testing.
 
 3. Check the output! If something looks off edit your recipe.
+
 >[!TIP]
 >The above command will by default 'prune' the recipe, meaning it will only use two of the input files you provided to avoid creating too large output.
 >Keep that in mind when you check the output for correctness.
