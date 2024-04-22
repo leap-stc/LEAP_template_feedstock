@@ -3,9 +3,8 @@ A synthetic prototype recipe
 """
 
 import os
-from typing import List, Dict, Any
 import apache_beam as beam
-from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs, check_github_workflow
+from leap_data_management_utils.data_management_transforms import Copy, InjectAttrs
 from pangeo_forge_recipes.patterns import pattern_from_file_sequence
 from pangeo_forge_recipes.transforms import (
     OpenURLWithFSSpec,
@@ -14,6 +13,7 @@ from pangeo_forge_recipes.transforms import (
     ConsolidateMetadata,
     ConsolidateDimensionCoordinates,
 )
+
 # parse the catalog store locations (this is where the data is copied to after successful write (and maybe testing)
 catalog_store_urls = get_catalog_store_urls("feedstock/catalog.yaml")
 
