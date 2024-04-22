@@ -1,5 +1,5 @@
-# proto_feedstock
-The prototype (and future template) of a LEAP-Pangeo feedstock.
+# LEAP Template Feedstock
+This repository serves as template/documentation/testing ground for Leap-Pangeo Data Library Feedstocks.
 
 ## Setup
 ### Use this template
