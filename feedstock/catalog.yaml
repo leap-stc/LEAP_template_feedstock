@@ -6,11 +6,11 @@ tags:
 stores:
   - id: "small"
     name: "The cool small Proto Dataset"
-    url: "gs://leap-scratch/data-library/feedstocks/latest/proto_feedstock/small.zarr"
+    url: "gs://leap-scratch/data-library/feedstocks/proto_feedstock/small.zarr"
     "ncviewjs:rechunking":
       - path: "gs://some-bucket/small.zarr"
         use_case: "multiscales"
 
   - id: "large"
     name: "The even cooler large Proto Dataset" # no pyramids
-    url: "gs://leap-scratch/data-library/feedstocks/latest/proto_feedstock/large.zarr"
+    url: "gs://leap-scratch/data-library/feedstocks/proto_feedstock/large.zarr"
