@@ -79,7 +79,7 @@ To proceed with this step you will need assistance a memeber of the [LEAP Data a
 
 - To deploy a recipe to Google Dataflow you have to trigger the "Deploy Recipes to Google Dataflow" with a single `recipe_id` as input.
 
-- Once your recipe is run from a github workflow we assume that it is deployed to Google Dataflow and activate the final [copy stage](https://github.com/leap-stc/LEAP_template_feedstock/blob/55ee23ce0bc90f764d18bc34c58adccb5b38fc89/feedstock/recipe.py#L63). This happens automatically, but you have to make sure to edit the `'feedstock/catalog.yaml'` `url` entries for each `recipe_id`. This location will be the 'final' location of the data, and this is what gets passed to the the catalog in the next step! 
+- Once your recipe is run from a github workflow we assume that it is deployed to Google Dataflow and activate the final [copy stage](https://github.com/leap-stc/LEAP_template_feedstock/blob/55ee23ce0bc90f764d18bc34c58adccb5b38fc89/feedstock/recipe.py#L63). This happens automatically, but you have to make sure to edit the `'feedstock/catalog.yaml'` `url` entries for each `recipe_id`. This location will be the 'final' location of the data, and this is what gets passed to the the catalog in the next step!
 
 >[!NOTE]
 >By default the `'prune'` option is set to true. To build the final dataset you need to change that value [here](https://github.com/leap-stc/LEAP_template_feedstock/blob/55ee23ce0bc90f764d18bc34c58adccb5b38fc89/configs/config_dataflow.py#L7). **Particularly for large datasets make sure that you have finalized the entries in `'feedstock/catalog.yaml'`**, since the full build of the dataset can be slow and expensive - you want to avoid doing that again 😁
