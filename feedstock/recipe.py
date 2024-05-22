@@ -31,6 +31,10 @@ else:
 print("Final output locations")
 print(f"{catalog_store_urls=}")
 
+###########################
+## Start Modifying here ###
+###########################
+
 ## Monthly version
 input_urls_a = [
     "gs://cmip6/pgf-debugging/hanging_bug/file_a.nc",
