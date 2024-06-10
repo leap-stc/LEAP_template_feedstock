@@ -22,6 +22,7 @@ This repository serves as template/documentation/testing ground for Leap-Pangeo 
 
 - Edit the `feedstock/recipe.py` to build your pangeo-forge recipe. If you are new to pangeo-forge, [the docs](https://pangeo-forge.readthedocs.io/en/latest/composition/index.html#overview) are a great starting point
 - Make sure to also edit the other files in the `/feedstock/` directory. More info on feedstock structure can be found [here](https://pangeo-forge.readthedocs.io/en/latest/deployment/feedstocks.html#meta-yaml)
+- 🚨 You should not have to modify any of the files outside the `feedstock` folder (and this README)! If you run into a situation where you think changes are needed, please open an issue and tag @leap-stc/data-and-compute.
 
 ### Test your recipe locally
 Before we run your recipe on LEAPs Dataflow runner you should test your recipe locally.
