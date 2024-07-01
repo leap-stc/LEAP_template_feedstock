@@ -27,12 +27,12 @@ If you want to transform your dataset from e.g. a bunch of netcdf files into a z
 
 <details>
 <summary>
-  
-#### Linking existing ARCO datasets 
+
+#### Linking existing ARCO datasets
 
 </summary>
 
-To link an existing dataset all you need to do is to modify `'feedstock/meta.yaml'` and `'feedstock/catalog.yaml'`. Enter the information about the dataset in `'feedstock/meta.yaml'` and then add corresponding entries (the `'id'` parameter has to match) in `'feedstock/catalog.yaml'`, where the url can point to any publically available cloud storage. 
+To link an existing dataset all you need to do is to modify `'feedstock/meta.yaml'` and `'feedstock/catalog.yaml'`. Enter the information about the dataset in `'feedstock/meta.yaml'` and then add corresponding entries (the `'id'` parameter has to match) in `'feedstock/catalog.yaml'`, where the url can point to any publically available cloud storage.
 
 <details>
 <summary> Example from the [`arco-era5_feedstock](https://github.com/leap-stc/arco-era5_feedstock): </summary>
@@ -50,25 +50,25 @@ provenance:
   providers:
     - name: "Google Research"
       description: >
-      Hersbach, H., Bell, B., Berrisford, P., Hirahara, S., Horányi, A., 
-      Muñoz‐Sabater, J., Nicolas, J., Peubey, C., Radu, R., Schepers, D., 
-      Simmons, A., Soci, C., Abdalla, S., Abellan, X., Balsamo, G., 
-      Bechtold, P., Biavati, G., Bidlot, J., Bonavita, M., De Chiara, G., 
-      Dahlgren, P., Dee, D., Diamantakis, M., Dragani, R., Flemming, J., 
-      Forbes, R., Fuentes, M., Geer, A., Haimberger, L., Healy, S., 
-      Hogan, R.J., Hólm, E., Janisková, M., Keeley, S., Laloyaux, P., 
+      Hersbach, H., Bell, B., Berrisford, P., Hirahara, S., Horányi, A.,
+      Muñoz‐Sabater, J., Nicolas, J., Peubey, C., Radu, R., Schepers, D.,
+      Simmons, A., Soci, C., Abdalla, S., Abellan, X., Balsamo, G.,
+      Bechtold, P., Biavati, G., Bidlot, J., Bonavita, M., De Chiara, G.,
+      Dahlgren, P., Dee, D., Diamantakis, M., Dragani, R., Flemming, J.,
+      Forbes, R., Fuentes, M., Geer, A., Haimberger, L., Healy, S.,
+      Hogan, R.J., Hólm, E., Janisková, M., Keeley, S., Laloyaux, P.,
       Lopez, P., Lupu, C., Radnoti, G., de Rosnay, P., Rozum, I., Vamborg, F.,
-      Villaume, S., Thépaut, J-N. (2017): Complete ERA5: Fifth generation of 
-      ECMWF atmospheric reanalyses of the global climate. Copernicus Climate 
+      Villaume, S., Thépaut, J-N. (2017): Complete ERA5: Fifth generation of
+      ECMWF atmospheric reanalyses of the global climate. Copernicus Climate
       Change Service (C3S) Data Store (CDS).
-      
-      Hersbach et al, (2017) was downloaded from the Copernicus Climate Change 
-      Service (C3S) Climate Data Store. We thank C3S for allowing us to 
+
+      Hersbach et al, (2017) was downloaded from the Copernicus Climate Change
+      Service (C3S) Climate Data Store. We thank C3S for allowing us to
       redistribute the data.
-      
-      The results contain modified Copernicus Climate Change Service 
-      information 2022. Neither the European Commission nor ECMWF is 
-      responsible for any use that may be made of the Copernicus information 
+
+      The results contain modified Copernicus Climate Change Service
+      information 2022. Neither the European Commission nor ECMWF is
+      responsible for any use that may be made of the Copernicus information
       or data it contains.
       roles:
         - producer
@@ -105,7 +105,7 @@ stores:
 
 <details>
 <summary>
-  
+
 #### Build a Pangeo-Forge Recipe
 
 </summary>
