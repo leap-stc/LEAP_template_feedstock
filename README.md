@@ -171,7 +171,9 @@ To proceed with this step you will need assistance a memeber of the [LEAP Data a
 >[!WARNING]
 >To proceed with this step you will need to have certain repository secrets set up. For security reasons this should be done by a memeber of the [LEAP Data and Computation Team](https://leap-stc.github.io/support.html#data-and-computation-team). Please open an issue on this repository and tag `@leap-stc/data-and-compute` to get assistance.
 
-- To deploy a recipe to Google Dataflow you have to trigger the "Deploy Recipes to Google Dataflow" with a single `recipe_id` as input.
+- To deploy a recipe to Google Dataflow you have to trigger the "Deploy Recipes to Google Dataflow" with a single `recipe_id` as input and choose the appropriate branch.
+>[!WARNING]
+>We recently ran into problems with PRs based on forked repositories ([example](https://github.com/leap-stc/eNATL_feedstock/pull/8)), which cannot be run via the Actions "Run Workflow" button/trigger. Until we find a workable solution here we recommend to not fork the feedstock repo and work only with branches on the main feedstock
 
 - Once your recipe is run from a github workflow we assume that it is deployed to Google Dataflow and activate the final [copy stage](https://github.com/leap-stc/LEAP_template_feedstock/blob/55ee23ce0bc90f764d18bc34c58adccb5b38fc89/feedstock/recipe.py#L63). This happens automatically, but you have to make sure to edit the `'feedstock/catalog.yaml'` `url` entries for each `recipe_id`. This location will be the 'final' location of the data, and this is what gets passed to the the catalog in the next step!
 
