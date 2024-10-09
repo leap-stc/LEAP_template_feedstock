@@ -189,4 +189,4 @@ Open a PR to our [catalog input file](https://github.com/leap-stc/data-managemen
 
 ### Clean up
 
-- [ ] Replace the instructions in this README.  
+- [ ] Replace the instructions in this README.
