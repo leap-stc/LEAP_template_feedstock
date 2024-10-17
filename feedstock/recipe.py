@@ -60,7 +60,11 @@ small = (
     | InjectAttrs()
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
-    | Copy(target=catalog_store_urls["small"])
+    | Copy(
+        target=catalog_store_urls["small"]
+    )  # DO NOT REMOVE THIS STAGE. This stage will copy the
+    # resulting zarr array to the location specified in the
+    # `catalog.yaml` file.
 )
 
 # larger recipe
