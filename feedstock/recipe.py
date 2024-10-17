@@ -60,6 +60,9 @@ small = (
         # Can we inject this in the same way as the root?
         # Maybe its better to find another way and avoid injections entirely...
         combine_dims=pattern_a.combine_dim_keys,
+        target_chunks={
+            "time": 1,
+        },
     )
     | InjectAttrs()
     | ConsolidateDimensionCoordinates()
@@ -79,6 +82,9 @@ large = (
     | StoreToZarr(
         store_name="large.zarr",
         combine_dims=pattern_b.combine_dim_keys,
+        target_chunks={
+            "time": 1,
+        },
     )
     | InjectAttrs()
     | ConsolidateDimensionCoordinates()
