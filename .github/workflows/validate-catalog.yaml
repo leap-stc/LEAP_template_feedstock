@@ -1,4 +1,4 @@
-name: Catalog
+name: catalog-entry
 
 on:
   pull_request:
@@ -49,6 +49,7 @@ jobs:
 
   update:
     needs: validate-and-generate
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     defaults:
       run:
