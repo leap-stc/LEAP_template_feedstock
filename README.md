@@ -12,6 +12,7 @@ Every dataset that is part of the LEAP-Pangeo Data Library is represented by a r
 > - Make the repo public
 > - Make sure to create the repo under the `leap-stc` github organization, not your personal account!
 > - Name your feedstock according to your data  `<your_data>_feedstock`.
+> - Optional but encouraged: Give the `leap-stc/data-and-compute` team admin access (so we can make changes without bothering you). To do so go to `Settings > Collaborators and Teams > Add Teams` and add `leap-stc/data-and-compute` with admin role.
 >
 >  If you made a mistake here it is not a huge problem. All these settings can be changed after you created the repo.
 
