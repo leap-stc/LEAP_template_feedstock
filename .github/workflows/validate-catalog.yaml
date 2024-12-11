@@ -56,7 +56,8 @@ jobs:
       run:
         shell: bash -l {0}
     environment:
-      name: ${{ github.head_ref }}
+      # name: ${{ github.head_ref }}
+      name: staging
       url: https://catalog.leap.columbia.edu/?catalog=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/output/single-feedstock-web-catalog.json
     steps:
       - uses: actions/create-github-app-token@v1
