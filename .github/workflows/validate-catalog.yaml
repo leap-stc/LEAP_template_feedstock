@@ -51,10 +51,14 @@ jobs:
 
   update:
     needs: validate-and-generate
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash -l {0}
+    environment:
+      name: ${{ github.head_ref }}
+      url: https://catalog.leap.columbia.edu/?catalog=https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref }}/output/single-feedstock-web-catalog.json
     steps:
       - uses: actions/create-github-app-token@v1
         id: app-token
@@ -109,35 +113,3 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           branch: update-single-feedstock-web-catalog
           delete-branch: true
-  pr-comment:
-    needs: update
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/create-github-app-token@v1
-        id: app-token
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
-      - uses: actions/download-artifact@v4
-        with:
-          name: single-feedstock-web-catalog.json
-          path: output
-
-      - name: Comment PR
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ steps.app-token.outputs.token }}
-          script: |
-            const catalogUrl = `https://catalog.leap.columbia.edu/?catalog=https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.name}/${context.payload.pull_request.head.ref}/output/single-feedstock-web-catalog.json`;
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.name,
-              body: `Catalog entry has been validated and generated.
-
-              You can view the changes in the artifacts of this workflow run.
-
-              Preview the catalog entry here: [Catalog Preview](${catalogUrl})`
-            })
