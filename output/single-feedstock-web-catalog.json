@@ -1,0 +1,65 @@
+[
+  {
+    "title": "LEAP Data Library Prototype",
+    "description": "A prototype test for the LEAP Data Library refactor\n",
+    "maintainers": [
+      {
+        "name": "Julius Busecke",
+        "github": "jbusecke"
+      }
+    ],
+    "provenance": {
+      "providers": [
+        {
+          "name": "Julius",
+          "description": "Just a guy testing some recipes. Nothing to see here.",
+          "roles": [
+            "producer",
+            "licensor"
+          ],
+          "url": null
+        }
+      ],
+      "license": "Just a Test",
+      "license_link": null
+    },
+    "thumbnail": null,
+    "tags": [
+      "my-custom-tag",
+      "zarr"
+    ],
+    "links": null,
+    "stores": [
+      {
+        "id": "small",
+        "name": "The cool small Proto Dataset",
+        "url": "gs://leap-scratch/data-library/feedstocks/proto_feedstock/small.zarr",
+        "ncviewjs:rechunking": [
+          {
+            "path": "gs://some-bucket/small.zarr",
+            "use_case": "multiscales"
+          }
+        ],
+        "public": false,
+        "geospatial": null,
+        "xarray_open_kwargs": {
+          "engine": "zarr"
+        },
+        "last_updated": null
+      },
+      {
+        "id": "large",
+        "name": "The even cooler large Proto Dataset",
+        "url": "gs://leap-scratch/data-library/feedstocks/proto_feedstock/large.zarr",
+        "ncviewjs:rechunking": null,
+        "public": false,
+        "geospatial": null,
+        "xarray_open_kwargs": {
+          "engine": "zarr"
+        },
+        "last_updated": null
+      }
+    ],
+    "ncviewjs:meta_yaml_url": "https://github.com/leap-stc/proto_feedstock/blob/main/feedstock/meta.yaml"
+  }
+]
