@@ -7,7 +7,7 @@ stores:
   - id: "small"
     name: "The cool small Proto Dataset"
     url: "gs://leap-scratch/data-library/feedstocks/proto_feedstock/small.zarr"
-    "ncviewjs:rechunking":
+    rechunking:
       - path: "gs://some-bucket/small.zarr"
         use_case: "multiscales"
 
