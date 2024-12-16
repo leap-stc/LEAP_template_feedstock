@@ -34,12 +34,7 @@
         "id": "small",
         "name": "The cool small Proto Dataset",
         "url": "gs://leap-scratch/data-library/feedstocks/proto_feedstock/small.zarr",
-        "ncviewjs:rechunking": [
-          {
-            "path": "gs://some-bucket/small.zarr",
-            "use_case": "multiscales"
-          }
-        ],
+        "rechunking": null,
         "public": false,
         "geospatial": null,
         "xarray_open_kwargs": {
@@ -51,7 +46,7 @@
         "id": "large",
         "name": "The even cooler large Proto Dataset",
         "url": "gs://leap-scratch/data-library/feedstocks/proto_feedstock/large.zarr",
-        "ncviewjs:rechunking": null,
+        "rechunking": null,
         "public": false,
         "geospatial": null,
         "xarray_open_kwargs": {
