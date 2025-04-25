@@ -1,3 +1,14 @@
+[project]
+name = "leap-template-feedstock"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pre-commit>=4.2.0",
+]
+
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
