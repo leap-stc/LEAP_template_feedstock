@@ -31,26 +31,9 @@
     "links": null,
     "stores": [
       {
-        "id": "small",
+        "id": "my-dataset",
         "name": "The cool small Proto Dataset",
         "url": "gs://leap-scratch/data-library/feedstocks/proto_feedstock/small.zarr",
-        "rechunking": [
-          {
-            "path": "gs://some-bucket/small.zarr",
-            "use_case": "multiscales"
-          }
-        ],
-        "public": false,
-        "geospatial": null,
-        "xarray_open_kwargs": {
-          "engine": "zarr"
-        },
-        "last_updated": null
-      },
-      {
-        "id": "large",
-        "name": "The even cooler large Proto Dataset",
-        "url": "gs://leap-scratch/data-library/feedstocks/proto_feedstock/large.zarr",
         "rechunking": null,
         "public": false,
         "geospatial": null,
